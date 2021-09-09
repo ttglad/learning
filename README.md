@@ -2,7 +2,7 @@
 Help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`, get more time to think about the meaning of life.
 
 ## Download
-* [latest release](https://github.com/ttglad/learning/releases)
+* [latest release](https://github.com/ttglad/learning/tree/master/release)
 
 ## Install
 * Chrome
@@ -10,7 +10,7 @@ Help some adults (maybe children in future) to happily finish their daily homewo
 
 ## Usage
 * Desktop Browser
-  * Click the ![icon](https://github.com/ttglad/learning/release/img/favicon.png) button on the toolbar at the top right of the browser to start running program.
+  * Click the ![icon](https://github.com/ttglad/learning/blob/master/release/img/favicon.png) button on the toolbar at the top right of the browser to start running program.
   * If don't have login, please login in the small opening window.
   * Waiting for the program to finish 'study' in the small opening window, you can use this computer do something else but `minimize` or `close` that window.
 * Mobile Browser (Firefox)

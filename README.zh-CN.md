@@ -2,7 +2,7 @@
 帮助一些成年人（或许未来包括孩子）快乐地完成来自`学习强国`的作业，让更多时间思考人生的意义。
 
 ## 下载
-* [最新发布](https://github.com/ttglad/learning/releases)
+* [最新发布](https://github.com/ttglad/learning/tree/master/release)
 
 ## 安装方法
 * Chrome
@@ -11,7 +11,7 @@
 
 ## 使用方法
 * 桌面浏览器
-  * 在浏览器右上方的工具栏中，点击 ![icon](https://github.com/ttglad/learning/release/img/favicon.png) 按钮来启动程序。
+  * 在浏览器右上方的工具栏中，点击 ![icon](https://github.com/ttglad/learning/blob/master/release/img/favicon.png) 按钮来启动程序。
   * 如果没有登录，请在打开的小窗口中进行登录。
   * 等待打开的小窗口中的程序完成“学习”，期间你可以用这台电脑做其他事情，但不要 `最小化` 或 `关闭` 那个窗口。
 * 移动浏览器 （Firefox）
