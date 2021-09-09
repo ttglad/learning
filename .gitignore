@@ -2,3 +2,5 @@
 .DS_Store
 release/img/*.ico
 *.js
+*.pem
+*.zip

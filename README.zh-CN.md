@@ -7,6 +7,12 @@
 ## 安装方法
 * Chrome
   * 在地址栏输入 `chrome://extensions` 并回车，勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择从 `Source code` 解压的 `release` 文件夹。
+* QQ 浏览器
+    * 在地址栏输入 `qqbrowser://extensions/manage` 并回车，拖动 `*.crx` 文件到页面内。
+* 360 安全浏览器
+    * 在地址栏输入 `se://extensions` 并回车，拖动 `*.crx` 文件到页面内。
+* 360 极速浏览器
+    * 在地址栏输入 `chrome://myextensions/extensions` 并回车，拖动 `*.crx` 文件到页面内。
 
 
 ## 使用方法

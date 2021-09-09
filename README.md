@@ -6,7 +6,13 @@ Help some adults (maybe children in future) to happily finish their daily homewo
 
 ## Install
 * Chrome
- * enter `chrome://extensions/` in the browser address bar, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder from the unpacked `Source code`.
+    * enter `chrome://extensions/` in the browser address bar, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder from the unpacked `Source code`.
+* QQ Browser
+    * Enter `qqbrowser://extensions/manage` in the browser address bar and drag `*.crx` file to the page.
+* 360 Security Browser
+    * Enter `se://extensions/` in the browser address bar and drag `*.crx` file to the page.
+* 360 Extreme Browser
+    * Enter `chrome://myextensions/extensions/` in the browser address bar and drag `*.crx` file to the page.
 
 ## Usage
 * Desktop Browser
