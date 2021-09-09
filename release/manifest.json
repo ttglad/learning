@@ -1,0 +1,79 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_extName__",
+  "version": "1.4.5",
+  "default_locale": "zh_CN",
+  "description": "__MSG_extDescription__",
+  "icons": {
+    "16": "img/favicon.png",
+    "32": "img/favicon.png",
+    "48": "img/favicon.png",
+    "128": "img/favicon.png"
+  },
+  "browser_action": {
+    "default_icon": "img/favicon.png"
+  },
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "js": [
+        "js/login.js"
+      ],
+      "matches": [
+        "*://pc.xuexi.cn/points/login.html*"
+      ]
+    },
+    {
+      "js": [
+        "js/points.js"
+      ],
+      "matches": [
+        "*://pc.xuexi.cn/points/my-points.html*"
+      ]
+    },
+    {
+      "js": [
+        "js/study.js"
+      ],
+      "matches": [
+        "*://pc.xuexi.cn/points/my-study.html*"
+      ]
+    },
+    {
+      "js": [
+        "js/ask.js"
+      ],
+      "matches": [
+        "*://pc.xuexi.cn/points/exam-practice.html*"
+      ]
+    },
+    {
+      "js": [
+        "js/runtime.js"
+      ],
+      "matches": [
+        "*://www.xuexi.cn/*/e43e220633a65f9b6d8b53712cba9caa.html*",
+        "*://www.xuexi.cn/*/cf94877c29e1c685574e0226618fb1be.html*",
+        "*://www.xuexi.cn/*/7f9f27c65e84e71e1b7189b7132b4710.html*",
+        "*://www.xuexi.cn/lgpage/detail/index.html?id=*"
+      ]
+    },
+    {
+      "js": [
+        "js/redirect.js"
+      ],
+      "matches": [
+        "*://*.xuexi.cn/*"
+      ]
+    }
+  ],
+  "permissions": [
+    "*://*.xuexi.cn/*",
+    "tabs",
+    "notifications"
+  ]
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>选择登录方式</title>
+    <style>
+        #box {
+            display: flex;
+        }
+
+        #box button {
+            border: none;
+            color: white;
+            line-height: 300%;
+            flex: 1;
+            margin: 2%;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #box button#qr {
+            background-color: #d20202;
+        }
+
+        #box button#dd {
+            background-color: #3296fa;
+        }
+    </style>
+    <script src="js/choose.js"></script>
+</head>
+<body>
+<fieldset>
+    <legend>选择登录方式</legend>
+    <div id="box">
+        <button id="qr">APP扫码</button>
+    </div>
+</fieldset>
+<p>* 如无法登录，尝试停用<b>AdBlock</b>类工具，或将<b>pc.xuexi.cn</b>加入白名单</p>
+</body>
+</html>

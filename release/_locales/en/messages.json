@@ -1,0 +1,38 @@
+{
+  "extName": {
+    "message": "Learning",
+    "description": ""
+  },
+  "extDescription": {
+    "message": "A helper for xuexi.cn",
+    "description": ""
+  },
+  "extVersion": {
+    "message": "Please update browser version",
+    "description": ""
+  },
+  "extWorking": {
+    "message": "Study hard",
+    "description": ""
+  },
+  "extWarning": {
+    "message": "Don't [minimize] or [close] the popup window",
+    "description": ""
+  },
+  "extFinish": {
+    "message": "Complete! See you",
+    "description": ""
+  },
+  "extScoreApi": {
+    "message": "Score api changed",
+    "description": ""
+  },
+  "extChannelApi": {
+    "message": "Channel api changed",
+    "description": ""
+  },
+  "extUpdate": {
+    "message": "Please wait for the new version to be released",
+    "description": ""
+  }
+}

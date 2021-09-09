@@ -1,0 +1,38 @@
+{
+  "extName": {
+    "message": "学习",
+    "description": ""
+  },
+  "extDescription": {
+    "message": "一个学习强国的帮手",
+    "description": ""
+  },
+  "extVersion": {
+    "message": "请更新浏览器版本",
+    "description": ""
+  },
+  "extWorking": {
+    "message": "努力学习中",
+    "description": ""
+  },
+  "extWarning": {
+    "message": "请勿 [最小化] 或 [关闭] 小弹窗",
+    "description": ""
+  },
+  "extFinish": {
+    "message": "学习完毕！明天见",
+    "description": ""
+  },
+  "extScoreApi": {
+    "message": "积分接口变更",
+    "description": ""
+  },
+  "extChannelApi": {
+    "message": "渠道接口变更",
+    "description": ""
+  },
+  "extUpdate": {
+    "message": "请等待新版本发布",
+    "description": ""
+  }
+}
