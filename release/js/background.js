@@ -20,7 +20,7 @@ let urlMap = {
     "weekAskUrl": [
         "https://pc.xuexi.cn/points/exam-weekly-list.html",
     ],
-    "weekAskUrl": [
+    "paperAskUrl": [
         "https://pc.xuexi.cn/points/exam-paper-list.html",
     ],
 };
@@ -77,7 +77,7 @@ function getPointsData(callback) {
                     if (checkScoreAPI(res)) {
                         let points = 0;
                         // let ruleList = [1, 2, 9, 1002, 1003];
-                        let ruleList = [1, 2, 6, 9, 1002, 1003];
+                        let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
                         for (let key in res.data.dayScoreDtos) {
                             if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
                                 continue;
@@ -116,7 +116,7 @@ function checkScoreAPI(res) {
     if (res.hasOwnProperty("data")) {
         if (res.data.hasOwnProperty("dayScoreDtos")) {
             let pass = 0;
-            let ruleList = [1, 2, 6, 9, 1002, 1003];
+            let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
             for (let key in res.data.dayScoreDtos) {
                 if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
                     continue;
@@ -127,7 +127,7 @@ function checkScoreAPI(res) {
                     }
                 }
             }
-            if (pass === 6) {
+            if (pass === ruleList.length) {
                 return true;
             }
         }
@@ -238,10 +238,22 @@ function autoEarnPoints(timeout) {
                             newTime = 125 * 1000 + Math.floor(Math.random() * 120 * 1000);
                         }
                         break;
+                    case 4:
+                        if (score[key].currentScore <= 0) {
+                            type = "paperAsk";
+                            newTime = 300 * 1000 + Math.floor(Math.random() * 10 * 1000);
+                        }
+                        break;
+                    case 5:
+                        if (score[key].currentScore <= 0) {
+                            type = "weekAsk";
+                            newTime = 300 * 1000 + Math.floor(Math.random() * 10 * 1000);
+                        }
+                        break;
                     case 6:
                         if (score[key].currentScore < score[key].dayMaxScore) {
                             type = "dayAsk";
-                            newTime = 180 * 1000 + Math.floor(Math.random() * 10 * 1000);
+                            newTime = 300 * 1000 + Math.floor(Math.random() * 10 * 1000);
                         }
                         break;
                 }
@@ -464,6 +476,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                 notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
                                 setTimeout(function () {
                                     channelUrls["dayAsk"] = urlMap.dayAskUrl;
+                                    channelUrls["weekAsk"] = urlMap.weekAskUrl;
+                                    channelUrls["paperAsk"] = urlMap.paperAskUrl;
                                     getChannelData("article", function (list) {
                                         channelUrls["article"] = list;
                                         getChannelData("video", function (list) {
@@ -489,6 +503,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                                 runningTabId = tab.id;
                                 setTimeout(function () {
                                     channelUrls["dayAsk"] = urlMap.dayAskUrl;
+                                    channelUrls["weekAsk"] = urlMap.weekAskUrl;
+                                    channelUrls["paperAsk"] = urlMap.paperAskUrl;
                                     getChannelData("article", function (list) {
                                         channelUrls["article"] = list;
                                         getChannelData("video", function (list) {

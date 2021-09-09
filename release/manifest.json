@@ -48,7 +48,25 @@
         "js/ask.js"
       ],
       "matches": [
-        "*://pc.xuexi.cn/points/exam-practice.html*"
+        "*://pc.xuexi.cn/points/exam-practice.html*",
+        "*://pc.xuexi.cn/points/exam-weekly-detail.html*",
+        "*://pc.xuexi.cn/points/exam-paper-detail.html*"
+      ]
+    },
+    {
+      "js": [
+        "js/week.js"
+      ],
+      "matches": [
+        "*://pc.xuexi.cn/points/exam-weekly-list.html*"
+      ]
+    },
+    {
+      "js": [
+        "js/paper.js"
+      ],
+      "matches": [
+        "*://pc.xuexi.cn/points/exam-paper-list.html*"
       ]
     },
     {
