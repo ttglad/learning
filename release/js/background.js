@@ -5,6 +5,8 @@ let windowHeight = 360 + Math.floor(Math.random() * 120);
 let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
 let firefoxVersion = (/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
 let isMobile = !!(/Mobile/.exec(navigator.userAgent));
+// 1阅读文章，2试听学习，4专项答题，5每周答题，6每日答题，9登录，1002文章时长，1003视听学习时长
+let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
 let urlMap = {
     "index": "https://www.xuexi.cn",
     "points": "https://pc.xuexi.cn/points/my-points.html",
@@ -79,7 +81,7 @@ function getPointsData(callback) {
                     if (checkScoreAPI(res)) {
                         let points = 0;
                         // let ruleList = [1, 2, 9, 1002, 1003];
-                        let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
+                        // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
                         for (let key in res.data.dayScoreDtos) {
                             if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
                                 continue;
@@ -118,7 +120,7 @@ function checkScoreAPI(res) {
     if (res.hasOwnProperty("data")) {
         if (res.data.hasOwnProperty("dayScoreDtos")) {
             let pass = 0;
-            let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
+            // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
             for (let key in res.data.dayScoreDtos) {
                 if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
                     continue;
@@ -243,19 +245,19 @@ function autoEarnPoints(timeout) {
                     case 6:
                         if (score[key].currentScore < score[key].dayMaxScore) {
                             type = "dayAsk";
-                            newTime = 300 * 1000 + Math.floor(Math.random() * 10 * 1000);
+                            newTime = 200 * 1000 + Math.floor(Math.random() * 10 * 1000);
                         }
                         break;
                     case 4:
                         if (score[key].currentScore <= 0) {
                             type = "paperAsk";
-                            newTime = 300 * 1000 + Math.floor(Math.random() * 10 * 1000);
+                            newTime = 260 * 1000 + Math.floor(Math.random() * 10 * 1000);
                         }
                         break;
                     case 5:
                         if (score[key].currentScore <= 0) {
                             type = "weekAsk";
-                            newTime = 300 * 1000 + Math.floor(Math.random() * 10 * 1000);
+                            newTime = 320 * 1000 + Math.floor(Math.random() * 10 * 1000);
                         }
                         break;
                 }
