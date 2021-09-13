@@ -19,8 +19,10 @@ let urlMap = {
     ],
     "weekAskUrl": [
         "https://pc.xuexi.cn/points/exam-weekly-list.html",
+        "https://pc.xuexi.cn/points/exam-weekly-list.html",
     ],
     "paperAskUrl": [
+        "https://pc.xuexi.cn/points/exam-paper-list.html",
         "https://pc.xuexi.cn/points/exam-paper-list.html",
     ],
 };
@@ -35,7 +37,7 @@ let channel = {
         "17aeesljm72|https://www.xuexi.cn/03c8b56d5bce4b3619a9d6c2dfb180ef/9a3668c13f6e303932b5e0e100fc248b.html",
         "tuaihmuun2|https://www.xuexi.cn/bab787a637b47d3e51166f6a0daeafdb/9a3668c13f6e303932b5e0e100fc248b.html",
         "u1ght1omn2|https://www.xuexi.cn/d184e7597cc0da16f5d9f182907f1200/9a3668c13f6e303932b5e0e100fc248b.html",
-        "1lo8n2gv8n2|https://www.xuexi.cn/531564a05f3981160bf5c4c2b70fe1ce/65d8bbc44cc6812cec5ef2df79cb91cf.html",
+        // "1lo8n2gv8n2|https://www.xuexi.cn/531564a05f3981160bf5c4c2b70fe1ce/65d8bbc44cc6812cec5ef2df79cb91cf.html",
         "1oo5atvs172|https://www.xuexi.cn/00f20f4ab7d63a1c259fff55be963558/9a3668c13f6e303932b5e0e100fc248b.html",
         "1gohlpfidnc|https://www.xuexi.cn/4954c7f51c37ef08e9fdf58434a8c1e2/5afa2289c8a14feb189920231dadc643.html",
         "1eppcq11fne|https://www.xuexi.cn/0db3aecacaed782aaab2da53498360ad/5957f69bffab66811b99940516ec8784.html",
@@ -238,6 +240,12 @@ function autoEarnPoints(timeout) {
                             newTime = 125 * 1000 + Math.floor(Math.random() * 120 * 1000);
                         }
                         break;
+                    case 6:
+                        if (score[key].currentScore < score[key].dayMaxScore) {
+                            type = "dayAsk";
+                            newTime = 300 * 1000 + Math.floor(Math.random() * 10 * 1000);
+                        }
+                        break;
                     case 4:
                         if (score[key].currentScore <= 0) {
                             type = "paperAsk";
@@ -247,12 +255,6 @@ function autoEarnPoints(timeout) {
                     case 5:
                         if (score[key].currentScore <= 0) {
                             type = "weekAsk";
-                            newTime = 300 * 1000 + Math.floor(Math.random() * 10 * 1000);
-                        }
-                        break;
-                    case 6:
-                        if (score[key].currentScore < score[key].dayMaxScore) {
-                            type = "dayAsk";
                             newTime = 300 * 1000 + Math.floor(Math.random() * 10 * 1000);
                         }
                         break;
@@ -327,7 +329,7 @@ function notice(title, message = "") {
     if (!isMobile) {
         chrome.notifications.create({
             "type": "basic",
-            "iconUrl": "img/128.png",
+            "iconUrl": "img/favicon.png",
             "title": title,
             "message": message
         }, function (notificationId) {
