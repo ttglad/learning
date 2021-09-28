@@ -14,17 +14,11 @@ let urlMap = {
     "channelApi": "https://www.xuexi.cn/lgdata/",
     "dayAskUrl": [
         "https://pc.xuexi.cn/points/exam-practice.html",
-        "https://pc.xuexi.cn/points/exam-practice.html",
-        "https://pc.xuexi.cn/points/exam-practice.html",
-        "https://pc.xuexi.cn/points/exam-practice.html",
-        "https://pc.xuexi.cn/points/exam-practice.html",
     ],
     "weekAskUrl": [
         "https://pc.xuexi.cn/points/exam-weekly-list.html",
-        "https://pc.xuexi.cn/points/exam-weekly-list.html",
     ],
     "paperAskUrl": [
-        "https://pc.xuexi.cn/points/exam-paper-list.html",
         "https://pc.xuexi.cn/points/exam-paper-list.html",
     ],
 };
@@ -39,7 +33,7 @@ let channel = {
         "17aeesljm72|https://www.xuexi.cn/03c8b56d5bce4b3619a9d6c2dfb180ef/9a3668c13f6e303932b5e0e100fc248b.html",
         "tuaihmuun2|https://www.xuexi.cn/bab787a637b47d3e51166f6a0daeafdb/9a3668c13f6e303932b5e0e100fc248b.html",
         "u1ght1omn2|https://www.xuexi.cn/d184e7597cc0da16f5d9f182907f1200/9a3668c13f6e303932b5e0e100fc248b.html",
-        // "1lo8n2gv8n2|https://www.xuexi.cn/531564a05f3981160bf5c4c2b70fe1ce/65d8bbc44cc6812cec5ef2df79cb91cf.html",
+        "1lo8n2gv8n2|https://www.xuexi.cn/531564a05f3981160bf5c4c2b70fe1ce/65d8bbc44cc6812cec5ef2df79cb91cf.html",
         "1oo5atvs172|https://www.xuexi.cn/00f20f4ab7d63a1c259fff55be963558/9a3668c13f6e303932b5e0e100fc248b.html",
         "1gohlpfidnc|https://www.xuexi.cn/4954c7f51c37ef08e9fdf58434a8c1e2/5afa2289c8a14feb189920231dadc643.html",
         "1eppcq11fne|https://www.xuexi.cn/0db3aecacaed782aaab2da53498360ad/5957f69bffab66811b99940516ec8784.html",
@@ -70,6 +64,7 @@ let channel = {
 //检查用户积分数据
 // 1阅读文章，2试听学习，4专项答题，5每周答题，6每日答题，9登录，1002文章时长，1003视听学习时长
 function getPointsData(callback) {
+    console.log(new Date().toLocaleString() + ': getPointsData begin');
     if (scoreTabId) {
         let xhr = new XMLHttpRequest();
         xhr.open("GET", urlMap.scoreApi);
@@ -141,6 +136,7 @@ function checkScoreAPI(res) {
 
 //检查首页内容数据
 function getChannelData(type, callback) {
+    console.log(new Date().toLocaleString() + ': getChannelData');
     shuffle(channel[type]);
     channelArr = channel[type][0].split('|');
 
@@ -171,6 +167,7 @@ function getChannelData(type, callback) {
                     let list = [];
                     let pass = [];
                     let url;
+                    // let publishTime;
 
                     for (key in res) {
                         if (!res.hasOwnProperty(key)) {
@@ -178,6 +175,20 @@ function getChannelData(type, callback) {
                         }
                         if (res[key].hasOwnProperty("url")) {
                             url = res[key].url;
+
+                            // 判断发布时间是否是1年之内，如果没有，判断url规则
+                            // if (res[key].hasOwnProperty("publishTime")) {
+                            //     publishTime = new Date(res[key].publishTime);
+                            //     var lastYear = new Date(new Date() - 365 * 86400000);
+                            //     if (publishTime < lastYear) {
+                            //         continue;
+                            //     }
+                            // } else {
+                            //     if (url.indexOf("lgpage/detail/index") === -1) {
+                            //         continue;
+                            //     }
+                            // }
+
                             if (type === 'article') {
                                 if (url.indexOf("e43e220633a65f9b6d8b53712cba9caa") === -1 && url.indexOf("lgpage/detail/index") === -1) {
                                     continue;
@@ -216,6 +227,7 @@ function getChannelData(type, callback) {
 
 //自动积分
 function autoEarnPoints(timeout) {
+    console.log(new Date().toLocaleString() + ': autoEarnPoints begin');
     let url;
     let newTime = 0;
     setTimeout(function () {
@@ -227,6 +239,12 @@ function autoEarnPoints(timeout) {
                 if (!score.hasOwnProperty(key)) {
                     continue;
                 }
+
+                if (ruleList.indexOf(score[key].ruleId) === -1) {
+                    continue;
+                }
+
+                console.log(score[key].name + '(' + score[key].ruleId + ')' + ': ' + score[key].currentScore + ', ' + score[key].dayMaxScore);
                 switch (score[key].ruleId) {
                     case 1:
                     case 1002:
@@ -242,22 +260,22 @@ function autoEarnPoints(timeout) {
                             newTime = 125 * 1000 + Math.floor(Math.random() * 120 * 1000);
                         }
                         break;
-                    case 6:
-                        if (score[key].currentScore < score[key].dayMaxScore) {
-                            type = "dayAsk";
-                            newTime = 200 * 1000 + Math.floor(Math.random() * 10 * 1000);
-                        }
-                        break;
                     case 4:
                         if (score[key].currentScore <= 0) {
                             type = "paperAsk";
-                            newTime = 260 * 1000 + Math.floor(Math.random() * 10 * 1000);
+                            newTime = 120 * 1000 + Math.floor(Math.random() * 100 * 1000);
                         }
                         break;
                     case 5:
                         if (score[key].currentScore <= 0) {
                             type = "weekAsk";
-                            newTime = 320 * 1000 + Math.floor(Math.random() * 10 * 1000);
+                            newTime = 120 * 1000 + Math.floor(Math.random() * 100 * 1000);
+                        }
+                        break;
+                    case 6:
+                        if (score[key].currentScore < score[key].dayMaxScore) {
+                            type = "dayAsk";
+                            newTime = 120 * 1000 + Math.floor(Math.random() * 100 * 1000);
                         }
                         break;
                 }
@@ -265,9 +283,14 @@ function autoEarnPoints(timeout) {
                     break;
                 }
             }
-
+            // console.log(channelUrls[type]);
             if (type && channelUrls[type].length) {
-                url = channelUrls[type].shift();
+                if (type === 'article' || type == 'video') {
+                    url = channelUrls[type].shift();
+                } else {
+                    url = channelUrls[type][0];
+                }
+                console.log(type + ', url is: ' + url);
             }
 
             // alert('scoreTabId' + scoreTabId);
@@ -279,6 +302,7 @@ function autoEarnPoints(timeout) {
                                 "method": "redirect",
                                 "data": url
                             });
+                            console.log(new Date().toLocaleString() + ': new Time is ' + newTime);
                             autoEarnPoints(newTime);
                         }
                     });
@@ -388,8 +412,9 @@ function closeWindow(windowId) {
 
 //获取登录链接
 function getLoginUrl() {
-    let lang = chrome.i18n.getUILanguage() === "zh-CN" ? ".zh-CN" : "";
-    return chrome.runtime.getURL("login" + lang + ".html");
+    // let lang = chrome.i18n.getUILanguage() === "zh-CN" ? ".zh-CN" : "";
+    return "https://pc.xuexi.cn/points/login.html";
+    // return chrome.runtime.getURL("login" + lang + ".html");
 }
 
 //扩展按钮点击事件
