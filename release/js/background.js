@@ -263,13 +263,13 @@ function autoEarnPoints(timeout) {
                     case 4:
                         if (score[key].currentScore <= 0) {
                             type = "paperAsk";
-                            newTime = 120 * 1000 + Math.floor(Math.random() * 100 * 1000);
+                            newTime = 180 * 1000 + Math.floor(Math.random() * 100 * 1000);
                         }
                         break;
                     case 5:
                         if (score[key].currentScore <= 0) {
                             type = "weekAsk";
-                            newTime = 120 * 1000 + Math.floor(Math.random() * 100 * 1000);
+                            newTime = 180 * 1000 + Math.floor(Math.random() * 100 * 1000);
                         }
                         break;
                     case 6:
