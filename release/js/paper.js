@@ -4,14 +4,16 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
 
             function getNeedAnswer()
             {
-                var isNextPage = false;
+                var isNextPage = true;
                 document.querySelectorAll('.item .right > button').forEach(function (e, b, c) {
-                    let i = e.innerText;
-                    if (i != "" && (i == '开始答题' || i == '继续答题')) {
-                        e.click();
-                        return;
+                    if (isNextPage) {
+                        let i = e.innerText;
+                        if (i != "" && (i == '开始答题' || i == '继续答题')) {
+                            isNextPage = false;
+                            e.click();
+                            return;
+                        }
                     }
-                    isNextPage = true;
                 });
 
                 if (isNextPage) {
