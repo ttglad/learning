@@ -295,7 +295,7 @@ function autoEarnPoints(timeout) {
             }
 
             // 判断是否存在这个数据的url
-            if (!channelUrls.hasOwnProperty(type)) {
+            if (type && !channelUrls.hasOwnProperty(type)) {
                 console.log('获取url失败');
                 if (type === 'article') {
                     getChannelData("article", function (list) {
