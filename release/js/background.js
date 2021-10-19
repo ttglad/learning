@@ -66,53 +66,63 @@ let channel = {
 function getPointsData(callback) {
     console.log(new Date().toLocaleString() + ': getPointsData begin');
     if (scoreTabId) {
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", urlMap.scoreApi);
-        xhr.setRequestHeader("Pragma", "no-cache");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                let res = JSON.parse(xhr.responseText);
-                if (res.hasOwnProperty("code") && parseInt(res.code) === 200) {
-                    if (checkScoreAPI(res)) {
-                        let points = 0;
-                        // let ruleList = [1, 2, 9, 1002, 1003];
-                        // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
-                        for (let key in res.data.dayScoreDtos) {
-                            if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
-                                continue;
+        try{
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", urlMap.scoreApi + '?_st=' + new Date().getTime());
+            xhr.setRequestHeader("Pragma", "no-cache");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    let res = JSON.parse(xhr.responseText);
+                    if (res.hasOwnProperty("code") && parseInt(res.code) === 200) {
+                        if (checkScoreAPI(res)) {
+                            let points = 0;
+                            // let ruleList = [1, 2, 9, 1002, 1003];
+                            // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
+                            for (let key in res.data.dayScoreDtos) {
+                                if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
+                                    continue;
+                                }
+                                if (ruleList.indexOf(res.data.dayScoreDtos[key].ruleId) !== -1) {
+                                    points += res.data.dayScoreDtos[key].currentScore;
+                                }
                             }
-                            if (ruleList.indexOf(res.data.dayScoreDtos[key].ruleId) !== -1) {
-                                points += res.data.dayScoreDtos[key].currentScore;
+                            if (!isMobile) {
+                                // 浏览器扩展图标
+                                chrome.browserAction.setBadgeText({"text": points.toString()});
                             }
-                        }
-                        if (!isMobile) {
-                            // 浏览器扩展图标
-                            chrome.browserAction.setBadgeText({"text": points.toString()});
-                        }
-                        if (typeof callback === "function") {
-                            callback(res.data);
+                            if (typeof callback === "function") {
+                                callback(res.data);
+                            }
+                        } else {
+                            notice(chrome.i18n.getMessage("extScoreApi"), chrome.i18n.getMessage("extUpdate"));
+                            console.log('autoEarnPoints get data error');
+                            autoEarnPoints(10 * 1000);
                         }
                     } else {
-                        notice(chrome.i18n.getMessage("extScoreApi"), chrome.i18n.getMessage("extUpdate"));
+                        if (runningTabId) {
+                            chrome.tabs.remove(runningTabId);
+                        }
+                        if (runningWindowId) {
+                            closeWindow();
+                        }
+                        chrome.tabs.update(scoreTabId, {"active": true, "url": getLoginUrl()});
                     }
-                } else {
-                    if (runningTabId) {
-                        chrome.tabs.remove(runningTabId);
-                    }
-                    if (runningWindowId) {
-                        closeWindow();
-                    }
-                    chrome.tabs.update(scoreTabId, {"active": true, "url": getLoginUrl()});
                 }
-            }
-        };
-        xhr.send();
+            };
+            xhr.send();
+        } catch(err) {
+            console.log('getPointsData err: ' + err)
+            autoEarnPoints(10 * 1000);
+        }
     }
 }
 
 //检查积分接口数据结构
 function checkScoreAPI(res) {
     if (res.hasOwnProperty("data")) {
+        if (res.data == null || typeof res.data == 'undefined') {
+            return false;
+        }
         if (res.data.hasOwnProperty("dayScoreDtos")) {
             let pass = 0;
             // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
@@ -283,9 +293,34 @@ function autoEarnPoints(timeout) {
                     break;
                 }
             }
+
+            // 判断是否存在这个数据的url
+            if (!channelUrls.hasOwnProperty(type)) {
+                console.log('获取url失败');
+                if (type === 'article') {
+                    getChannelData("article", function (list) {
+                        channelUrls["article"] = list;
+                    });
+                }
+                if (type === 'video') {
+                    getChannelData("video", function (list) {
+                        channelUrls["video"] = list;
+                    });
+                }
+                if (type === 'dayAsk') {
+                    channelUrls["dayAsk"] = urlMap.dayAskUrl;
+                }
+                if (type === 'weekAsk') {
+                    channelUrls["weekAsk"] = urlMap.dayAskUrl;
+                }
+                if (type === 'paperAsk') {
+                    channelUrls["paperAsk"] = urlMap.dayAskUrl;
+                }
+            }
+
             // console.log(channelUrls[type]);
             if (type && channelUrls[type].length) {
-                if (type === 'article' || type == 'video') {
+                if (type === 'article' || type === 'video') {
                     url = channelUrls[type].shift();
                 } else {
                     url = channelUrls[type][0];
