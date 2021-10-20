@@ -10,7 +10,8 @@ let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
 let urlMap = {
     "index": "https://www.xuexi.cn",
     "points": "https://pc.xuexi.cn/points/my-points.html",
-    "scoreApi": "https://pc-api.xuexi.cn/open/api/score/today/queryrate",
+    // "scoreApi": "https://pc-api.xuexi.cn/open/api/score/today/queryrate",
+    "scoreApi": "https://pc-proxy-api.xuexi.cn/api/score/today/queryrate",
     "channelApi": "https://www.xuexi.cn/lgdata/",
     "dayAskUrl": [
         "https://pc.xuexi.cn/points/exam-practice.html",
@@ -123,15 +124,14 @@ function checkScoreAPI(res) {
         if (res.data == null || typeof res.data == 'undefined') {
             return false;
         }
-        if (res.data.hasOwnProperty("dayScoreDtos")) {
             let pass = 0;
             // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
-            for (let key in res.data.dayScoreDtos) {
-                if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
+            for (let key in res.data) {
+                if (!res.data.hasOwnProperty(key)) {
                     continue;
                 }
-                if (res.data.dayScoreDtos[key].hasOwnProperty("ruleId") && res.data.dayScoreDtos[key].hasOwnProperty("currentScore") && res.data.dayScoreDtos[key].hasOwnProperty("dayMaxScore")) {
-                    if (ruleList.indexOf(res.data.dayScoreDtos[key].ruleId) !== -1) {
+                if (res.data[key].hasOwnProperty("ruleId") && res.data[key].hasOwnProperty("currentScore") && res.data[key].hasOwnProperty("dayMaxScore")) {
+                    if (ruleList.indexOf(res.data[key].ruleId) !== -1) {
                         ++pass;
                     }
                 }
@@ -139,7 +139,6 @@ function checkScoreAPI(res) {
             if (pass === ruleList.length) {
                 return true;
             }
-        }
     }
     return false;
 }
@@ -242,7 +241,7 @@ function autoEarnPoints(timeout) {
     let newTime = 0;
     setTimeout(function () {
         getPointsData(function (data) {
-            let score = data.dayScoreDtos;
+            let score = data;
             let type;
 
             for (let key in score) {
