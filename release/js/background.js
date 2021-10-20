@@ -79,12 +79,12 @@ function getPointsData(callback) {
                             let points = 0;
                             // let ruleList = [1, 2, 9, 1002, 1003];
                             // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
-                            for (let key in res.data.dayScoreDtos) {
-                                if (!res.data.dayScoreDtos.hasOwnProperty(key)) {
+                            for (let key in res.data) {
+                                if (!res.data.hasOwnProperty(key)) {
                                     continue;
                                 }
-                                if (ruleList.indexOf(res.data.dayScoreDtos[key].ruleId) !== -1) {
-                                    points += res.data.dayScoreDtos[key].currentScore;
+                                if (ruleList.indexOf(res.data[key].ruleId) !== -1) {
+                                    points += res.data[key].currentScore;
                                 }
                             }
                             if (!isMobile) {
