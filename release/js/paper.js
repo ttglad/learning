@@ -17,13 +17,18 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                 });
 
                 if (isNextPage) {
-                    document.querySelector('a.ant-pagination-item-link > i.anticon-right').click();
 
-                    setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 3000));
+                    var li = document.getElementsByClassName("ant-pagination-next")[0];
+                    if (li.getAttribute("aria-disabled") == "false") {
+                        document.querySelector('a.ant-pagination-item-link > i.anticon-right').click();
+                        setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 1000));
+                    } else {
+                        chrome.runtime.sendMessage({"method": "paperAskDoes"});
+                    }
                 }
             }
 
-            setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 3000));
+            setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 1000));
 
         }
     }

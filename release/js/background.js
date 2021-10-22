@@ -1,5 +1,5 @@
 let scoreTabId = 0, runningTabId = 0, scoreWindowId = 0, runningWindowId = 0, channelUrls = {}, userId = 0,
-    usedUrls = {}, chooseLogin = 0;
+    usedUrls = {}, chooseLogin = 0, weekAskDoes = 0, paperAskDoes = 0;
 let windowWidth = 360 + Math.floor(Math.random() * 120);
 let windowHeight = 360 + Math.floor(Math.random() * 120);
 let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
@@ -65,7 +65,7 @@ let channel = {
 //检查用户积分数据
 // 1阅读文章，2试听学习，4专项答题，5每周答题，6每日答题，9登录，1002文章时长，1003视听学习时长
 function getPointsData(callback) {
-    console.log(new Date().toLocaleString() + ': getPointsData begin');
+    // console.log(new Date().toLocaleString() + ': getPointsData begin');
     if (scoreTabId) {
         try{
             let xhr = new XMLHttpRequest();
@@ -96,7 +96,7 @@ function getPointsData(callback) {
                             }
                         } else {
                             notice(chrome.i18n.getMessage("extScoreApi"), chrome.i18n.getMessage("extUpdate"));
-                            console.log('autoEarnPoints get data error');
+                            // console.log('autoEarnPoints get data error');
                             autoEarnPoints(10 * 1000);
                         }
                     } else {
@@ -112,7 +112,7 @@ function getPointsData(callback) {
             };
             xhr.send();
         } catch(err) {
-            console.log('getPointsData err: ' + err)
+            // console.log('getPointsData err: ' + err)
             autoEarnPoints(10 * 1000);
         }
     }
@@ -145,7 +145,7 @@ function checkScoreAPI(res) {
 
 //检查首页内容数据
 function getChannelData(type, callback) {
-    console.log(new Date().toLocaleString() + ': getChannelData');
+    // console.log(new Date().toLocaleString() + ': getChannelData');
     shuffle(channel[type]);
     channelArr = channel[type][0].split('|');
 
@@ -236,7 +236,7 @@ function getChannelData(type, callback) {
 
 //自动积分
 function autoEarnPoints(timeout) {
-    console.log(new Date().toLocaleString() + ': autoEarnPoints begin');
+    // console.log(new Date().toLocaleString() + ': autoEarnPoints begin');
     let url;
     let newTime = 0;
     setTimeout(function () {
@@ -253,38 +253,38 @@ function autoEarnPoints(timeout) {
                     continue;
                 }
 
-                console.log(score[key].name + '(' + score[key].ruleId + ')' + ': ' + score[key].currentScore + ', ' + score[key].dayMaxScore);
+                // console.log(score[key].name + '(' + score[key].ruleId + ')' + ': ' + score[key].currentScore + ', ' + score[key].dayMaxScore);
                 switch (score[key].ruleId) {
                     case 1:
                     case 1002:
                         if (score[key].currentScore < score[key].dayMaxScore) {
                             type = "article";
-                            newTime = 35 * 1000 + Math.floor(Math.random() * 150 * 1000);
+                            newTime = 60 * 1000 + Math.floor(Math.random() * 60 * 1000);
                         }
                         break;
                     case 2:
                     case 1003:
                         if (score[key].currentScore < score[key].dayMaxScore) {
                             type = "video";
-                            newTime = 125 * 1000 + Math.floor(Math.random() * 120 * 1000);
+                            newTime = 120 * 1000 + Math.floor(Math.random() * 60 * 1000);
                         }
                         break;
                     case 4:
-                        if (score[key].currentScore <= 0) {
+                        if (paperAskDoes == 0 && score[key].currentScore <= 0) {
                             type = "paperAsk";
-                            newTime = 180 * 1000 + Math.floor(Math.random() * 100 * 1000);
+                            newTime = 150 * 1000 + Math.floor(Math.random() * 30 * 1000);
                         }
                         break;
                     case 5:
-                        if (score[key].currentScore <= 0) {
+                        if (weekAskDoes == 0 && score[key].currentScore <= 0) {
                             type = "weekAsk";
-                            newTime = 180 * 1000 + Math.floor(Math.random() * 100 * 1000);
+                            newTime = 120 * 1000 + Math.floor(Math.random() * 30 * 1000);
                         }
                         break;
                     case 6:
                         if (score[key].currentScore < score[key].dayMaxScore) {
                             type = "dayAsk";
-                            newTime = 120 * 1000 + Math.floor(Math.random() * 100 * 1000);
+                            newTime = 100 * 1000 + Math.floor(Math.random() * 30 * 1000);
                         }
                         break;
                 }
@@ -295,7 +295,7 @@ function autoEarnPoints(timeout) {
 
             // 判断是否存在这个数据的url
             if (type && !channelUrls.hasOwnProperty(type)) {
-                console.log('获取url失败');
+                // console.log('获取url失败');
                 if (type === 'article') {
                     getChannelData("article", function (list) {
                         channelUrls["article"] = list;
@@ -324,7 +324,7 @@ function autoEarnPoints(timeout) {
                 } else {
                     url = channelUrls[type][0];
                 }
-                console.log(type + ', url is: ' + url);
+                // console.log(type + ', url is: ' + url);
             }
 
             // alert('scoreTabId' + scoreTabId);
@@ -336,7 +336,7 @@ function autoEarnPoints(timeout) {
                                 "method": "redirect",
                                 "data": url
                             });
-                            console.log(new Date().toLocaleString() + ': new Time is ' + newTime);
+                            // console.log(new Date().toLocaleString() + ': new Time is ' + newTime);
                             autoEarnPoints(newTime);
                         }
                     });
@@ -465,6 +465,8 @@ chrome.browserAction.onClicked.addListener(function (tab) {
                 }
             } else {
                 channelUrls = {};
+                weekAskDoes = 0;
+                paperAskDoes = 0;
                 chooseLogin = 0;
                 createWindow(urlMap.points, function (window) {
                     scoreWindowId = window.id;
@@ -599,6 +601,18 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                     chrome.tabs.update(scoreTabId, {"url": getLoginUrl()});
                 }
             }
+            break;
+        case "weekAskDoes":
+            weekAskDoes = 1;
+            sendResponse({
+                "weekAskDoes": weekAskDoes
+            });
+            break;
+        case "paperAskDoes":
+            paperAskDoes = 1;
+            sendResponse({
+                "paperAskDoes": paperAskDoes
+            });
             break;
         case "askComplete":
             // closeWindow();
