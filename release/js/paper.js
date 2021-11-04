@@ -1,6 +1,6 @@
-chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
-    if (response && response.hasOwnProperty("runtime")) {
-        if (response.runtime) {
+// chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
+//     if (response && response.hasOwnProperty("runtime")) {
+//         if (response.runtime) {
 
             function getNeedAnswer()
             {
@@ -21,15 +21,15 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                     var li = document.getElementsByClassName("ant-pagination-next")[0];
                     if (li.getAttribute("aria-disabled") == "false") {
                         document.querySelector('a.ant-pagination-item-link > i.anticon-right').click();
-                        setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 1000));
+                        setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 3000));
                     } else {
                         chrome.runtime.sendMessage({"method": "paperAskDoes"});
                     }
                 }
             }
 
-            setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 1000));
+            setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 3000));
 
-        }
-    }
-});
+//         }
+//     }
+// });
