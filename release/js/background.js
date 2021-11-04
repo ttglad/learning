@@ -11,7 +11,8 @@ let urlMap = {
     "index": "https://www.xuexi.cn",
     "points": "https://pc.xuexi.cn/points/my-points.html",
     // "scoreApi": "https://pc-api.xuexi.cn/open/api/score/today/queryrate",
-    "scoreApi": "https://pc-proxy-api.xuexi.cn/api/score/today/queryrate",
+    // "scoreApi": "https://pc-proxy-api.xuexi.cn/api/score/today/queryrate",
+    "scoreApi": "https://pc-proxy-api.xuexi.cn/api/score/days/listScoreProgress?sence=score&deviceType=2",
     "channelApi": "https://www.xuexi.cn/lgdata/",
     "dayAskUrl": [
         "https://pc.xuexi.cn/points/exam-practice.html",
@@ -69,27 +70,25 @@ function getPointsData(callback) {
     if (scoreTabId) {
         try{
             let xhr = new XMLHttpRequest();
-            xhr.open("GET", urlMap.scoreApi + '?_st=' + new Date().getTime());
+            xhr.open("GET", urlMap.scoreApi);
             xhr.setRequestHeader("Pragma", "no-cache");
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     let res = JSON.parse(xhr.responseText);
                     if (res.hasOwnProperty("code") && parseInt(res.code) === 200) {
                         if (checkScoreAPI(res)) {
-                            let points = 0;
-                            // let ruleList = [1, 2, 9, 1002, 1003];
-                            // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
-                            for (let key in res.data) {
-                                if (!res.data.hasOwnProperty(key)) {
-                                    continue;
-                                }
-                                if (ruleList.indexOf(res.data[key].ruleId) !== -1) {
-                                    points += res.data[key].currentScore;
-                                }
-                            }
+                            // let points = 0;
+                            // for (let key in res.data) {
+                            //     if (!res.data.hasOwnProperty(key)) {
+                            //         continue;
+                            //     }
+                            //     if (ruleList.indexOf(res.data[key].ruleId) !== -1) {
+                            //         points += res.data[key].currentScore;
+                            //     }
+                            // }
                             if (!isMobile) {
                                 // 浏览器扩展图标
-                                chrome.browserAction.setBadgeText({"text": points.toString()});
+                                chrome.browserAction.setBadgeText({"text": res.data.totalScore.toString()});
                             }
                             if (typeof callback === "function") {
                                 callback(res.data);
@@ -121,24 +120,27 @@ function getPointsData(callback) {
 //检查积分接口数据结构
 function checkScoreAPI(res) {
     if (res.hasOwnProperty("data")) {
-        if (res.data == null || typeof res.data == 'undefined') {
-            return false;
+        if (res.data.hasOwnProperty("taskProgress")) {
+            return true;
         }
-            let pass = 0;
-            // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
-            for (let key in res.data) {
-                if (!res.data.hasOwnProperty(key)) {
-                    continue;
-                }
-                if (res.data[key].hasOwnProperty("ruleId") && res.data[key].hasOwnProperty("currentScore") && res.data[key].hasOwnProperty("dayMaxScore")) {
-                    if (ruleList.indexOf(res.data[key].ruleId) !== -1) {
-                        ++pass;
-                    }
-                }
-            }
-            if (pass === ruleList.length) {
-                return true;
-            }
+        // if (res.data == null || typeof res.data == 'undefined') {
+        //     return false;
+        // }
+        // let pass = 0;
+        // // let ruleList = [1, 2, 4, 5, 6, 9, 1002, 1003];
+        // for (let key in res.data) {
+        //     if (!res.data.hasOwnProperty(key)) {
+        //         continue;
+        //     }
+        //     if (res.data[key].hasOwnProperty("ruleId") && res.data[key].hasOwnProperty("currentScore") && res.data[key].hasOwnProperty("dayMaxScore")) {
+        //         if (ruleList.indexOf(res.data[key].ruleId) !== -1) {
+        //             ++pass;
+        //         }
+        //     }
+        // }
+        // if (pass === ruleList.length) {
+        //     return true;
+        // }
     }
     return false;
 }
@@ -241,7 +243,7 @@ function autoEarnPoints(timeout) {
     let newTime = 0;
     setTimeout(function () {
         getPointsData(function (data) {
-            let score = data;
+            let score = data.taskProgress;
             let type;
 
             for (let key in score) {
@@ -249,47 +251,87 @@ function autoEarnPoints(timeout) {
                     continue;
                 }
 
-                if (ruleList.indexOf(score[key].ruleId) === -1) {
-                    continue;
-                }
+                // if (ruleList.indexOf(score[key].ruleId) === -1) {
+                //     continue;
+                // }
 
                 // console.log(score[key].name + '(' + score[key].ruleId + ')' + ': ' + score[key].currentScore + ', ' + score[key].dayMaxScore);
-                switch (score[key].ruleId) {
-                    case 1:
-                    case 1002:
-                        if (score[key].currentScore < score[key].dayMaxScore) {
-                            type = "article";
-                            newTime = 35 * 1000 + Math.floor(Math.random() * 150 * 1000);
-                        }
+                // switch (score[key].ruleId) {
+                //     case 1:
+                //     case 1002:
+                //         if (score[key].currentScore < score[key].dayMaxScore) {
+                //             type = "article";
+                //             newTime = 35 * 1000 + Math.floor(Math.random() * 150 * 1000);
+                //         }
+                //         break;
+                //     case 2:
+                //     case 1003:
+                //         if (score[key].currentScore < score[key].dayMaxScore) {
+                //             type = "video";
+                //             newTime = 120 * 1000 + Math.floor(Math.random() * 120 * 1000);
+                //         }
+                //         break;
+                //     case 4:
+                //         if (paperAskDoes == 0 && score[key].currentScore <= 0) {
+                //             type = "paperAsk";
+                //             newTime = 150 * 1000 + Math.floor(Math.random() * 30 * 1000);
+                //         }
+                //         break;
+                //     case 5:
+                //         if (weekAskDoes == 0 && score[key].currentScore <= 0) {
+                //             type = "weekAsk";
+                //             newTime = 120 * 1000 + Math.floor(Math.random() * 30 * 1000);
+                //         }
+                //         break;
+                //     case 6:
+                //         if (score[key].currentScore < score[key].dayMaxScore) {
+                //             type = "dayAsk";
+                //             newTime = 100 * 1000 + Math.floor(Math.random() * 30 * 1000);
+                //         }
+                //         break;
+                // }
+                // if (type) {
+                //     break;
+                // }
+                if (score[key].taskCode.indexOf("1") != -1 || score[key].taskCode.indexOf("1002") != -1) {
+                    if (score[key].currentScore < score[key].dayMaxScore) {
+                        type = "article";
+                        newTime = 35 * 1000 + Math.floor(Math.random() * 150 * 1000);
                         break;
-                    case 2:
-                    case 1003:
-                        if (score[key].currentScore < score[key].dayMaxScore) {
-                            type = "video";
-                            newTime = 120 * 1000 + Math.floor(Math.random() * 120 * 1000);
-                        }
+                    }
+                    continue;
+                } else if (score[key].taskCode.indexOf("2") != -1) {
+                    if (score[key].currentScore < score[key].dayMaxScore) {
+                        type = "video";
+                        newTime = 120 * 1000 + Math.floor(Math.random() * 120 * 1000);
                         break;
-                    case 4:
-                        if (paperAskDoes == 0 && score[key].currentScore <= 0) {
-                            type = "paperAsk";
-                            newTime = 150 * 1000 + Math.floor(Math.random() * 30 * 1000);
-                        }
+                    }
+                } else if (score[key].taskCode.indexOf("1003") != -1) {
+                    if (score[key].currentScore < score[key].dayMaxScore) {
+                        type = "video";
+                        newTime = 120 * 1000 + Math.floor(Math.random() * 120 * 1000);
                         break;
-                    case 5:
-                        if (weekAskDoes == 0 && score[key].currentScore <= 0) {
-                            type = "weekAsk";
-                            newTime = 120 * 1000 + Math.floor(Math.random() * 30 * 1000);
-                        }
+                    }
+                } else if (score[key].taskCode.indexOf("4") != -1) {
+                    if (paperAskDoes == 0 && score[key].currentScore <= 0) {
+                        type = "paperAsk";
+                        newTime = 150 * 1000 + Math.floor(Math.random() * 30 * 1000);
                         break;
-                    case 6:
-                        if (score[key].currentScore < score[key].dayMaxScore) {
-                            type = "dayAsk";
-                            newTime = 100 * 1000 + Math.floor(Math.random() * 30 * 1000);
-                        }
+                    }
+                } else if (score[key].taskCode.indexOf("5") != -1) {
+                    if (weekAskDoes == 0 && score[key].currentScore <= 0) {
+                        type = "weekAsk";
+                        newTime = 120 * 1000 + Math.floor(Math.random() * 30 * 1000);
                         break;
-                }
-                if (type) {
-                    break;
+                    }
+                } else if (score[key].taskCode.indexOf("6") != -1) {
+                    if (score[key].currentScore < score[key].dayMaxScore) {
+                        type = "dayAsk";
+                        newTime = 100 * 1000 + Math.floor(Math.random() * 30 * 1000);
+                        break;
+                    }
+                } else {
+                    continue;
                 }
             }
 
