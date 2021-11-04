@@ -1,5 +1,5 @@
 # Learning
-Help some adults (maybe children in future) to happily finish their daily homework from `xuexi.cn`, get more time to think about the meaning of life.
+Help some adults (maybe children in future) to happily finish their daily homework from `xuexi`, get more time to think about the meaning of life.
 
 ## Download
 * [latest release](https://github.com/ttglad/learning/tree/master/release)
