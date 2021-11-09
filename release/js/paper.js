@@ -1,6 +1,6 @@
-// chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
-//     if (response && response.hasOwnProperty("runtime")) {
-//         if (response.runtime) {
+chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
+    if (response && response.hasOwnProperty("runtime")) {
+        if (response.runtime) {
 
             function getNeedAnswer()
             {
@@ -30,6 +30,6 @@
 
             setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 3000));
 
-//         }
-//     }
-// });
+        }
+    }
+});

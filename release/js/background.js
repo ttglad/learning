@@ -299,7 +299,6 @@ function autoEarnPoints(timeout) {
                         newTime = 35 * 1000 + Math.floor(Math.random() * 150 * 1000);
                         break;
                     }
-                    continue;
                 } else if (score[key].taskCode.indexOf("2") != -1) {
                     if (score[key].currentScore < score[key].dayMaxScore) {
                         type = "video";

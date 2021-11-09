@@ -5,14 +5,14 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
             var WaitingTime = 10, setTimeoutFunc = null, ManageType = 'auto', isManual = false;
 
             function getAnswers() {
-                var nmlsuo = 0, answerArray = [], match_w = {}, max = 0, yc_t = 0;
+                var answerChoseNum = 0, answerArray = [], match_num = {}, max = 0, timeAfter = 0;
                 isManual = false;
                 if (document.querySelector(".q-header") == null) {
                     if (document.querySelector(".ant-btn.action.ant-btn-primary") != null){
                         chrome.runtime.sendMessage({"method": "askComplete"});
                         return;
                     } else {
-                        setTimeoutFunc = setTimeout(getAnswers, 1000);
+                        setTimeoutFunc = setTimeout(getAnswers, parseInt(Math.random() * 1000 + 1000));
                         return;
                     }
                 }
@@ -20,7 +20,7 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                 if (questionTitle == null) {
                     return;
                 }
-                var questionTtype = questionTitle.innerText.substr(0, 3);
+                var questionType = questionTitle.innerText.substr(0, 3);
                 if (document.querySelector(".q-footer .tips") != null) {
                     document.querySelector(".q-footer .tips").click();
                 } else {
@@ -31,45 +31,48 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                     let i = a.innerText;
                     if (i != "") answerArray.push(i);
                 });
-                switch (questionTtype) {
+                switch (questionType) {
                     case "单选题":
-                        yc_t = 1;
+                        timeAfter = 1;
                     case "多选题":
-                        nmlsuo = document.querySelectorAll('.q-answers .chosen').length;
-                        if (nmlsuo <= 0) {
+                        answerChoseNum = document.querySelectorAll('.q-answers .chosen').length;
+                        if (answerChoseNum <= 0) {
                             document.querySelectorAll('.q-answer').forEach(function (a, b, c) {
-                                var yttyutut = a.innerHTML.split('. ').slice(-1)[0];
-                                var poyuyui = false;
-                                var dz_c = 0;
-                                var ootrddfg = false;
-                                var qazswr = answerArray.join('');
-                                ootrddfg = Boolean(a.className.indexOf("chosen") != -1);
-                                poyuyui = (yttyutut.indexOf(qazswr) != -1 || qazswr.indexOf(yttyutut) != -1) && qazswr != "";
-                                if (poyuyui && !ootrddfg) {
-                                    a.click();
-                                    nmlsuo++;
+                                var answerSelect = a.innerHTML.split('. ').slice(-1)[0];
+                                var answerIsRight = false;
+                                var answerMatches = 0;
+                                var isChosen = false;
+                                var answerJoinString = answerArray.join('');
+                                isChosen = Boolean(a.className.indexOf("chosen") != -1);
+                                answerIsRight = (answerSelect.indexOf(answerJoinString) != -1 || answerJoinString.indexOf(answerSelect) != -1) && answerJoinString != "";
+                                if (answerIsRight && questionType == '单选题') {
+                                    answerIsRight = (answerJoinString.length == answerSelect.length ? true : false);
                                 }
-                                if (!poyuyui) {
-                                    dz_c += qweqeqd(qazswr, a.innerHTML);
-                                    match_w[dz_c] = a
+                                if (answerIsRight && !isChosen) {
+                                    a.click();
+                                    answerChoseNum++;
+                                }
+                                if (!answerIsRight) {
+                                    answerMatches += getAnswerMatches(answerJoinString, a.innerHTML);
+                                    match_num[answerMatches] = a
                                 }
                             })
-                            if (nmlsuo == 0) {
-                                for (let i in match_w) {
+                            if (answerChoseNum == 0) {
+                                for (let i in match_num) {
                                     max = Number(max) >= Number(i) ? Number(max) : Number(i);
                                 }
-                                match_w[max].click();
-                                nmlsuo++;
+                                match_num[max].click();
+                                answerChoseNum++;
                                 isManual = true;
                             }
                             manualManage();
-                            yc_t = yc_t == 0 ? 2500 : 1500;
+                            timeAfter = timeAfter == 0 ? 2500 : 1500;
                         }
                         break;
                     case "填空题":
                         var inpus = document.querySelectorAll('.q-body input');
                         var inputs_e = document.querySelectorAll('.q-body input[value=""]');
-                        nmlsuo = inpus.length - inputs_e.length;
+                        answerChoseNum = inpus.length - inputs_e.length;
                         if (inputs_e.length > 0) {
                             var ev = new Event('input', {bubbles: true});
                             inpus.forEach(function (a, b, c) {
@@ -88,27 +91,27 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                                 if (a.value == "") {
                                     a.setAttribute("value", value);
                                     a.dispatchEvent(ev);
-                                    nmlsuo++;
+                                    answerChoseNum++;
                                 }
                             })
                             manualManage();
-                            yc_t = 3500;
+                            timeAfter = 3500;
                         }
                         break;
                 }
                 setTimeoutFunc = setTimeout(function () {
-                    answerSubmit(nmlsuo)
-                }, parseInt(Math.random() * 1500 + yc_t));
+                    answerSubmit(answerChoseNum)
+                }, parseInt(Math.random() * 1500 + timeAfter));
             }
 
-            function answerSubmit(nmlsuo = 0) {
-                if (nmlsuo > 0 && ManageType == 'auto') {
+            function answerSubmit(answerChoseNum = 0) {
+                if (answerChoseNum > 0 && ManageType == 'auto') {
                     !document.querySelector(".next-btn").disabled ? document.querySelector(".next-btn").click() : document.querySelector(".submit-btn").click();
                     setTimeoutFunc = setTimeout(getAnswers, parseInt(Math.random() * 1000 + 2000));
                 }
             }
 
-            function qweqeqd(a = '', b = '') {
+            function getAnswerMatches(a = '', b = '') {
                 let c = 0;
                 for (let i = 0; i < b.length; i++) {
                     if (a.indexOf(b.substr(i, 1)) != -1) {

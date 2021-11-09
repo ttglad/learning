@@ -4,3 +4,4 @@ release/img/*.ico
 *.js
 *.pem
 *.zip
+.FUNDING.yml
