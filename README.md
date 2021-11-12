@@ -1,36 +1,32 @@
-# Learning
-Help some adults (maybe children in future) to happily finish their daily homework from `xuexi`, get more time to think about the meaning of life.
+# 学习
+帮助一些成年人快乐地完成来自`学习强国`的学分，让更多时间思考人生的意义。
 
-## Download
-* [latest release](https://github.com/ttglad/learning/tree/master/release)
+## 下载
+* [最新发布](https://github.com/ttglad/learning/tree/master/release)
 
-## Install
+## 安装方法
 * Chrome
-    * enter `chrome://extensions/` in the browser address bar, check **Developer mode** -> **Load unpacked extension**, navigate to the `release` folder from the unpacked `Source code`.
-* QQ Browser
-    * Enter `qqbrowser://extensions/manage` in the browser address bar and drag `*.crx` file to the page.
-* 360 Security Browser
-    * Enter `se://extensions/` in the browser address bar and drag `*.crx` file to the page.
-* 360 Extreme Browser
-    * Enter `chrome://myextensions/extensions/` in the browser address bar and drag `*.crx` file to the page.
+  * 在地址栏输入 `chrome://extensions` 并回车，勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择从 `Source code` 解压的 `release` 文件夹。
+* QQ 浏览器
+    * 在地址栏输入 `qqbrowser://extensions/manage` 并回车，拖动 `*.crx` 文件到页面内。
+* 360 安全浏览器
+    * 在地址栏输入 `se://extensions` 并回车，拖动 `*.crx` 文件到页面内。
+* 360 极速浏览器
+    * 在地址栏输入 `chrome://myextensions/extensions` 并回车，拖动 `*.crx` 文件到页面内。
+* firefox   
+    * 搜索插件`学习强国助手`。
 
-## Usage
-* Desktop Browser
-  * Click the ![icon](https://github.com/ttglad/learning/blob/master/release/img/favicon.png) button on the toolbar at the top right of the browser to start running program.
-  * If don't have login, please login in the small opening window.
-  * Waiting for the program to finish 'study' in the small opening window, you can use this computer do something else but `minimize` or `close` that window.
-* Mobile Browser (Firefox)
-  * Click the `Learning` in browser's menu to start running program.
-  * If don't have login, please login on the opening page.
-  * Waiting for the program to finish 'study' on the opening page, keep the phone screen on and don't do anything else till the end.
-  * Make sure your phone is connecting a WLAN, because watching video will consume a lot of network traffic.
+## 使用方法
+* 桌面浏览器
+  * 在浏览器右上方的工具栏中，点击 ![icon](https://github.com/ttglad/learning/blob/master/release/img/favicon.png) 按钮来启动程序。
+  * 如果没有登录，请在打开的小窗口中进行登录。
+  * 等待打开的小窗口中的程序完成“学习”，期间你可以用这台电脑做其他事情，但不要 `最小化` 或 `关闭` 那个窗口。
 
-## Multiple Accounts
-* Create multiple users in chrome and run with different users.
-* Or run in multiple different browsers.
+## 多账号
+* 在Chrome中创建多个用户，使用不同的用户运行。
+* 或在多个不同的浏览器中运行。
 
-## License
-![GPLv3](https://www.gnu.org/graphics/gplv3-with-text-136x68.png)
-* This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-* This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-* You should have received a copy of the GNU General Public License along with this program.  If not, see <https://www.gnu.org/licenses/>.
+## 许可
+* 本人长期使用，有问题提交Issues
+* 本软件为公益性质，永久免费使用
+* 禁止各种形式的商用
