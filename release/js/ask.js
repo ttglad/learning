@@ -43,6 +43,11 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                                 var answerMatches = 0;
                                 var isChosen = false;
                                 var answerJoinString = answerArray.join('');
+
+                                // 转换符号，
+                                answerSelect = answerSelect.replace(/\(/g, "（").replace(/\)/g, "）");
+                                answerJoinString = answerJoinString.replace(/\(/g, "（").replace(/\)/g, "）");
+
                                 isChosen = Boolean(a.className.indexOf("chosen") != -1);
                                 answerIsRight = (answerSelect.indexOf(answerJoinString) != -1 || answerJoinString.indexOf(answerSelect) != -1) && answerJoinString != "";
                                 if (answerIsRight && questionType == '单选题') {
