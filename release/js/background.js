@@ -430,7 +430,7 @@ function notice(title, message = "") {
     if (!isMobile) {
         chrome.notifications.create({
             "type": "basic",
-            "iconUrl": "img/favicon.png",
+            "iconUrl": "img/icon_128x128.png",
             "title": title,
             "message": message
         }, function (notificationId) {
@@ -488,7 +488,7 @@ function closeWindow(windowId) {
 //获取登录链接
 function getLoginUrl() {
     // let lang = chrome.i18n.getUILanguage() === "zh-CN" ? ".zh-CN" : "";
-    return "https://pc.xuexi.cn/points/login.html";
+    return "https://pc.xuexi.cn/points/login.html?ref=https%3A%2F%2Fpc.xuexi.cn%2Fpoints%2Fmy-points.html";
     // return chrome.runtime.getURL("login" + lang + ".html");
 }
 

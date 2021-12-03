@@ -1,13 +1,13 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extName__",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
   "icons": {
     "16": "img/icon_16x16.png",
-    "32": "img/icon_128x128.png",
-    "48": "img/icon_128x128.png",
+    "32": "img/icon_32x32.png",
+    "48": "img/icon_48x48.png",
     "128": "img/icon_128x128.png"
   },
   "browser_action": {
