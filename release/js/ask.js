@@ -43,7 +43,9 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                         if (answerArray.length == 0) {
                             document.querySelectorAll('.line-feed').forEach(function (a, b, c) {
                                 let i = a.innerText;
-                                if (i != "") answerArray.push(i);
+                                if (i != "" && i != "请观看视频") {
+                                    answerArray.push(i);
+                                }
                             });
                         }
                     }
