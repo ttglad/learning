@@ -27,23 +27,29 @@ function autoScroll(type) {
 chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
     if (response && response.hasOwnProperty("runtime")) {
         if (response.runtime) {
-            let type = "article";
-            if (document.querySelector('video')) {
-                type = "video";
-            }
-            setTimeout(function () {
-                document.querySelector(".content").click();
-            }, 1000 + Math.floor(Math.random() * 3000));
 
-            setTimeout(function () {
-                window.scrollTo({
-                    left: window.scrollX,
-                    top: 400 + Math.floor(Math.random() * 200),
-                    behavior: 'smooth'
-                });
-                autoScroll(type);
-                chrome.runtime.sendMessage({"method": "useUrl", "type": type});
-            }, 1000 + Math.floor(Math.random() * 3000))
+            window.onload = function () {
+                let type = "article";
+                if (document.querySelector('video')) {
+                    type = "video";
+                }
+                setTimeout(function () {
+                    if (document.querySelector(".content") != null) {
+                        document.querySelector(".content").click();
+                    }
+                }, 3000 + Math.floor(Math.random() * 1000));
+
+                setTimeout(function () {
+                    window.scrollTo({
+                        left: window.scrollX,
+                        top: 400 + Math.floor(Math.random() * 200),
+                        behavior: 'smooth'
+                    });
+                    autoScroll(type);
+                    chrome.runtime.sendMessage({"method": "useUrl", "type": type});
+                }, 3000 + Math.floor(Math.random() * 1000))
+            }
+
         }
     }
 });
