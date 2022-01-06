@@ -65,16 +65,16 @@ let channel = {
         "1novbsbi47k|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1novbsbi47k-5",
         "1koo357ronk|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1koo357ronk-5",
         "1742g60067k|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1742g60067k-5",
-        "17th9fq5c7l|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#17th9fq5c7l-5",
+        // "17th9fq5c7l|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#17th9fq5c7l-5",
         "vc9n1ga0nl|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#vc9n1ga0nl-5",
         "1f8iooppm7l|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1f8iooppm7l-5",
         "17fsu5j4hnl|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#17fsu5j4hnl-5",
         "1am3asi2enl|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1am3asi2enl-5",
 
-        // "2qfjjjrprmdh|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1oajo2vt47l-5",
-        // "3m1erqf28h0r|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1oajo2vt47l-5",
-        // "525pi8vcj24p|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1oajo2vt47l-5",
-        // "48cdilh72vp4|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1oajo2vt47l-5",
+        "2qfjjjrprmdh|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1oajo2vt47l-5",
+        "3m1erqf28h0r|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1oajo2vt47l-5",
+        "525pi8vcj24p|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1oajo2vt47l-5",
+        "48cdilh72vp4|https://www.xuexi.cn/4426aa87b0b64ac671c96379a3a8bd26/db086044562a57b441c24f2af1c8e101.html#1oajo2vt47l-5",
         // "1novbsbi47k|https://www.xuexi.cn/a191dbc3067d516c3e2e17e2e08953d6/b87d700beee2c44826a9202c75d18c85.html",
         // "1742g60067k|https://www.xuexi.cn/0b99b2eb0a13e4501cbaf82a5c37a853/b87d700beee2c44826a9202c75d18c85.html",
     ]
@@ -135,9 +135,9 @@ function checkScoreAPI(res) {
 
 //检查首页内容数据
 function getChannelData(type, callback) {
-    log(new Date().toLocaleString() + ': getChannelData');
     shuffle(channel[type]);
     channelArr = channel[type][0].split('|');
+    log(new Date().toLocaleString() + ': getChannelData, channel type url is: ' + channelArr[0]);
 
     chrome.windows.get(runningWindowId, {"populate": true}, function (window) {
         if (typeof window !== "undefined") {
@@ -235,90 +235,73 @@ function autoEarnPoints(timeout) {
                 if (score[key].taskCode.indexOf("1") != -1 || score[key].taskCode.indexOf("1002") != -1) {
                     if (score[key].currentScore < score[key].dayMaxScore) {
                         type = "article";
-                        newTime = 35 * 1000 + Math.floor(Math.random() * 150 * 1000);
+                        newTime = 100 * 1000 + Math.floor(Math.random() * 60 * 1000);
                         break;
                     }
-                } else if (score[key].taskCode.indexOf("2") != -1) {
+                }
+                if (score[key].taskCode.indexOf("2") != -1) {
                     if (score[key].currentScore < score[key].dayMaxScore) {
                         type = "video";
-                        newTime = 120 * 1000 + Math.floor(Math.random() * 120 * 1000);
+                        newTime = 150 * 1000 + Math.floor(Math.random() * 120 * 1000);
                         break;
                     }
-                } else if (score[key].taskCode.indexOf("1003") != -1) {
+                }
+                if (score[key].taskCode.indexOf("1003") != -1) {
                     if (score[key].currentScore < score[key].dayMaxScore) {
                         type = "video";
-                        newTime = 120 * 1000 + Math.floor(Math.random() * 120 * 1000);
+                        newTime = 150 * 1000 + Math.floor(Math.random() * 120 * 1000);
                         break;
                     }
-                } else if (score[key].taskCode.indexOf("4") != -1) {
+                }
+                if (score[key].taskCode.indexOf("4") != -1) {
                     if (paperAskDoes == 0 && score[key].currentScore <= 0) {
                         type = "paperAsk";
                         newTime = 150 * 1000 + Math.floor(Math.random() * 30 * 1000);
                         break;
                     }
-                } else if (score[key].taskCode.indexOf("5") != -1) {
+                }
+                if (score[key].taskCode.indexOf("5") != -1) {
                     if (weekAskDoes == 0 && score[key].currentScore <= 0) {
                         type = "weekAsk";
-                        newTime = 120 * 1000 + Math.floor(Math.random() * 30 * 1000);
+                        newTime = 150 * 1000 + Math.floor(Math.random() * 30 * 1000);
                         break;
                     }
-                } else if (score[key].taskCode.indexOf("6") != -1) {
+                }
+                if (score[key].taskCode.indexOf("6") != -1) {
                     if (score[key].currentScore < score[key].dayMaxScore) {
                         type = "dayAsk";
-                        newTime = 100 * 1000 + Math.floor(Math.random() * 30 * 1000);
+                        newTime = 150 * 1000 + Math.floor(Math.random() * 30 * 1000);
                         break;
                     }
-                } else {
-                    continue;
                 }
             }
 
-            // 判断是否存在这个数据的url
-            if (type && !channelUrls.hasOwnProperty(type)) {
-                log('获取url失败');
-                // if (type === 'article') {
-                //     getChannelData("article", function (list) {
-                //         channelUrls["article"] = list;
-                //     });
-                // }
-                // if (type === 'video') {
-                //     getChannelData("video", function (list) {
-                //         channelUrls["video"] = list;
-                //     });
-                // }
-                // if (type === 'dayAsk') {
-                //     channelUrls["dayAsk"] = urlMap.dayAskUrl;
-                // }
-                // if (type === 'weekAsk') {
-                //     channelUrls["weekAsk"] = urlMap.dayAskUrl;
-                // }
-                // if (type === 'paperAsk') {
-                //     channelUrls["paperAsk"] = urlMap.dayAskUrl;
-                // }
-            }
-
-            // log(channelUrls[type]);
-            if (type && channelUrls[type].length) {
-                if (type === 'article' || type === 'video') {
-                    url = channelUrls[type].shift();
+            if (type) {
+                // 判断是否存在这个数据的url
+                if (!channelUrls.hasOwnProperty(type) || !channelUrls[type].length) {
+                    log('获取url失败');
                 } else {
-                    url = channelUrls[type][0];
-                }
-                log(type + ', url is: ' + url);
-            }
-
-            // alert('scoreTabId' + scoreTabId);
-            if (url && scoreTabId && runningWindowId) {
-                chrome.windows.get(runningWindowId, {"populate": true}, function (window) {
-                    if (typeof window !== "undefined") {
-                        chrome.tabs.sendMessage(window.tabs[window.tabs.length - 1].id, {
-                            "method": "redirect",
-                            "data": url
-                        });
-                        log(new Date().toLocaleString() + ': new Time is ' + newTime);
-                        autoEarnPoints(newTime);
+                    if (type === 'article' || type === 'video') {
+                        url = channelUrls[type].shift();
+                    } else {
+                        url = channelUrls[type][0];
                     }
-                });
+                    log(type + ', url is: ' + url);
+                }
+
+                // alert('scoreTabId' + scoreTabId);
+                if (url && scoreTabId && runningWindowId) {
+                    chrome.windows.get(runningWindowId, {"populate": true}, function (window) {
+                        if (typeof window !== "undefined") {
+                            chrome.tabs.sendMessage(window.tabs[window.tabs.length - 1].id, {
+                                "method": "redirect",
+                                "data": url
+                            });
+                            log(new Date().toLocaleString() + ': new Time is ' + newTime);
+                            autoEarnPoints(newTime);
+                        }
+                    });
+                }
             } else {
                 closeWindow();
             }
