@@ -21,7 +21,7 @@
   * 在浏览器右上方的工具栏中，点击 ![iconv](https://github.com/ttglad/learning/blob/master/release/img/icon_16x16.png) 按钮来启动程序。
   * 如果没有登录，请在打开的小窗口中进行登录。
   * 等待打开的小窗口中的程序完成“学习”，期间你可以用这台电脑做其他事情，但不要 `最小化` 或 `关闭` 那个窗口。
-  * ![运行时图片](https://github.com/ttglad/learning/blob/master/images/img/run.png)
+  * ![运行时图片](https://github.com/ttglad/learning/blob/master/images/run.png)
   
 
 ## 多账号
