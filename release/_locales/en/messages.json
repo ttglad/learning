@@ -34,5 +34,17 @@
   "extUpdate": {
     "message": "Please wait for the new version to be released",
     "description": ""
+  },
+  "extPopTitle": {
+    "message": "[Loading...]",
+    "description": ""
+  },
+  "extLogin": {
+    "message": "Please login",
+    "description": ""
+  },
+  "extLearning": {
+    "message": "Is Learning.., Please wait for end.",
+    "description": ""
   }
 }

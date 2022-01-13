@@ -1,0 +1,388 @@
+/*
+Copyright (c) 2011 Shyc2001 (http://twitter.com/shyc2001)
+This work is based on:
+*"Switchy! Chrome Proxy Manager and Switcher" (by Mohammad Hejazi (mohammadhi at gmail d0t com))
+*"SwitchyPlus" by @ayanamist (http://twitter.com/ayanamist)
+
+    This file is part of SwitchySharp.
+    SwitchySharp is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    SwitchySharp is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with SwitchySharp.  If not, see <http://www.gnu.org/licenses/>.
+*/
+body {
+    margin: 0;
+    color: #345;
+    font: menu;
+    font-size: 9pt;
+    -webkit-user-select: none;
+
+    visibility: hidden;
+}
+
+body, td, th, input, select, textarea, button {
+    font: menu;
+    font-size: 9pt;
+}
+
+body * {
+    white-space: nowrap;
+}
+
+hr {
+    height: 0;
+    margin: 0 0;
+    border: none;
+    border-top: solid 1px #eef;
+}
+
+.ltr, .ltr * {
+    direction: ltr !important;
+    text-align: left !important;
+}
+
+#menu {
+    margin: 2px 0;
+}
+
+#menu .templateItem {
+    display: none;
+}
+
+#menu .item {
+    padding: 4px 25px;
+    -webkit-padding-start: 6px;
+    margin: 0 2px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+#menu .item:hover {
+    padding: 3px 24px;
+    -webkit-padding-start: 5px;
+    border: solid 1px #bcd;
+    border-radius: 3px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.4, hsl(215, 67%, 97%)), color-stop(0.41, hsl(213, 48%, 95%)));
+}
+
+#menu .item:active {
+    padding: 3px 24px;
+    -webkit-padding-start: 5px;
+    border: solid 1px #abc;
+    border-radius: 3px;
+    background: #dde7f2 none;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e8eef4), color-stop(1, #f5f9f4));
+}
+
+#menu .item img {
+    vertical-align: text-top;
+}
+
+#menu .blue {
+    color: #47b;
+}
+
+#menu .green {
+    color: #5b5;
+}
+
+#menu .red {
+    color: #d63;
+}
+
+#menu .yellow {
+    color: #ca0;
+}
+
+#menu .purple {
+    color: #a407be;
+}
+
+#menu .icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+#menu .icon .checked {
+    background: url(../img/checked.png) !important;
+}
+
+#menu .checked {
+    background: url(../img/checked.png) !important;
+}
+
+#menu .item span {
+    -webkit-padding-start: 4px;
+}
+
+#menu .separator {
+    height: 0;
+    margin: 3px 2px;
+    border: 0;
+    border-top: 1px solid #ddd;
+}
+
+#menuError, #separatorError {
+    display: none;
+}
+
+#about {
+    font-size: 10pt;
+    padding: 10px;
+    display: none;
+}
+
+#about * {
+    color: #578;
+    cursor: default;
+}
+
+#about a {
+    cursor: pointer;
+}
+
+#about .header {
+    text-shadow: #ccc 1px 1px 3px;
+}
+
+#about .header td {
+    padding: 0 10px;
+    -webkit-padding-start: 0;
+}
+
+#about .header .title {
+    font-size: 26pt;
+    margin-top: -6px;
+    direction: ltr;
+}
+
+#about .header .titleTable {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#about .header .titleTable td {
+    padding: 0;
+}
+
+#about .header .version {
+    font-size: 11pt;
+    padding: 0;
+    text-shadow: #ddd 1px 1px 2px;
+    -webkit-padding-start: 3px !important;
+    -webkit-user-select: text;
+}
+
+#about .header .versionNumber {
+    font-weight: bold;
+    -webkit-padding-start: 5px;
+}
+
+#about .header img {
+    vertical-align: middle;
+}
+
+#about .body {
+    padding: 4px 4px;
+    white-space: nowrap;
+    -webkit-user-select: text;
+}
+
+#about .body * {
+    color: #679;
+}
+
+#about .body span {
+    white-space: nowrap;
+}
+
+#about .footer {
+    height: 15px;
+    color: #789;
+    margin: 5px;
+    padding-top: 3px;
+    border-top: solid 1px #eef;
+    white-space: nowrap;
+}
+
+#about .close, #addRule .close {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+}
+
+#addRule .close {
+    top: 10px;
+    padding: 10px;
+}
+
+#about .close img, #addRule .close img {
+    cursor: pointer;
+}
+
+#developer {
+    padding-bottom: 4px;
+}
+
+#developer .name {
+    padding: 5px 0;
+}
+
+#developer .name * {
+    font-size: 10pt;
+}
+
+#changeLog {
+    display: none;
+    padding: 5px 5px 12px;
+    margin: 8px 0;
+    white-space: nowrap;
+    font-size: 100%;
+    border: solid 1px #acb;
+    border-radius: 2px;
+}
+
+#changeLog * {
+    direction: ltr;
+    text-align: start;
+    color: #080 !important;
+}
+
+#changeLog .title {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+#changeLog .item {
+    margin-top: 4px;
+    font-size: 90%;
+}
+
+#addRule {
+    padding: 7px;
+    display: none;
+    height: 20px;
+}
+
+#addRule * {
+    color: #5e708d;
+}
+
+#addRule table {
+    border-spacing: 1px;
+    padding: 7px;
+    table-layout: fixed;
+}
+
+#addRule table th {
+    text-align: start;
+}
+
+#addRule table th {
+    height: 28px;
+    padding-left: 8px;
+    padding-right: 8px;
+    -webkit-padding-start: 0;
+    font-size: 9pt;
+    font-weight: normal;
+}
+
+#addRule table td {
+    height: 28px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+#addRule input, #addRule select {
+    width: 250px;
+    min-height: 24px;
+    height: 100%;
+    -webkit-padding-start: 3px;
+}
+
+#addRule .button {
+    width: 100px;
+    color: #567;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px;
+    border: solid 1px #abc;
+    border-radius: 2px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.4, hsl(0, 0%, 97%)), color-stop(0.41, hsl(0, 0%, 94%)));
+    -webkit-box-shadow: 0 1px 2px #ddd;
+}
+
+#addRule .button.bold {
+    font-weight: bold;
+}
+
+#addRule .button:hover {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.4, hsl(215, 67%, 97%)), color-stop(0.41, hsl(213, 48%, 94%)));
+}
+
+#addRule .button:active {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e0e9f4), color-stop(1, #f5f9f4));
+}
+
+#addRule .button img {
+    vertical-align: text-bottom;;
+}
+
+#addRule .header {
+    font-weight: bold;
+    border: solid 1px #abc;
+    border-radius: 2px;
+    padding: 8px;
+    margin-bottom: 9px;
+    background-color: #eaeeff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.48, hsl(217, 73%, 98%)), color-stop(0.51, hsl(217, 62%, 96%)));
+}
+
+#addRule .header.light {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fafcff), color-stop(1, #eff3fe));
+}
+
+#addRule .header.title {
+    -webkit-padding-start: 14px;
+}
+
+#addRule .note {
+    display: none;
+}
+
+#addRule .note > * {
+    height: auto !important;
+    padding-bottom: 6px;
+}
+
+#addRule .control {
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 0;
+}
+
+#addRule .control td {
+    padding: 0;
+}
+
+#addRule input.invalid {
+    color: inherit;
+    background-color: #fed;
+    border: solid 1px #ccc;
+    padding: 2px 4px;
+}
+
+#addRule .invalid {
+    color: #d63;
+}

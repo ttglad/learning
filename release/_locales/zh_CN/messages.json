@@ -34,5 +34,17 @@
   "extUpdate": {
     "message": "请等待新版本发布",
     "description": ""
+  },
+  "extPopTitle": {
+    "message": "[载入中...]",
+    "description": ""
+  },
+  "extLogin": {
+    "message": "请扫码登录",
+    "description": ""
+  },
+  "extLearning": {
+    "message": "正在学习中，请等待.",
+    "description": ""
   }
 }
