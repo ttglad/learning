@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extName__",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
   "icons": {
@@ -72,7 +72,7 @@
         "js/runtime.js"
       ],
       "matches": [
-        "*://www.xuexi.cn/lgpage/detail/index.html?id=*"
+        "*://www.xuexi.cn/lgpage/detail/index.html*"
       ]
     },
     {
@@ -87,6 +87,7 @@
   "permissions": [
     "*://*.xuexi.cn/*",
     "tabs",
-    "notifications"
+    "notifications",
+    "storage"
   ]
 }

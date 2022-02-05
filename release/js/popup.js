@@ -12,6 +12,10 @@ function init() {
 
     $(".versionNumber").text(App.version);
 
+    if (typeof(Settings.getObject("startLearning")) == "undefined") {
+        Settings.setObject("startLearning", false);
+    }
+
     if (typeof(Settings.getObject("dayAnswer")) == "undefined") {
         Settings.setObject("dayAnswer", true);
     }
@@ -31,19 +35,8 @@ function init() {
     if (typeof(Settings.getValue("env")) == "undefined") {
         Settings.setValue("env", "idc");
     }
-}
 
-$(document).ready(function () {
-    init();
-
-    // Ñ§Ï°°´Å¥
-    $("#xuexi").off("click").on("click", function() {
-        extension.browserActionClick();
-
-        window.close();
-    });
-
-    // ³õÊ¼»¯Êı¾İ
+    // åˆå§‹åŒ–æ•°æ®
     $(".answer").each(function() {
         var attrKey = $(this).attr("attr");
         var child = $(this).children("div.icon")[0];
@@ -54,7 +47,32 @@ $(document).ready(function () {
         }
     });
 
-    // ´ğÌâÑ¡Ïî
+    var start = Settings.getObject("startLearning");
+    if (start) {
+        $("#learning span:first").text('ç»“æŸå­¦ä¹ ');
+    } else {
+        $("#learning span:first").text('å¼€å§‹å­¦ä¹ ');
+    }
+}
+
+$(document).ready(function () {
+    init();
+
+    // å­¦ä¹ æŒ‰é’®
+    $("#learning").off("click").on("click", function() {
+        var start = Settings.getObject("startLearning");
+        if (!start) {
+            Settings.setObject("startLearning", true);
+            extension.browserActionClick();
+        } else {
+            Settings.setObject("startLearning", false);
+            extension.closeWindow();
+        }
+        window.close();
+    });
+
+
+    // ç­”é¢˜é€‰é¡¹
     $(".answer").off("click").on("click", function () {
         var attrKey = $(this).attr("attr");
         var child = $(this).children("div.icon")[0];
@@ -67,7 +85,7 @@ $(document).ready(function () {
         }
     });
 
-    // ¹ØÓÚÕ¹Ê¾
+    // å…³äºå±•ç¤º
     $("#menuAbout").off('click').on('click', function () {
         var currentBodyDirection = document.body.style.direction;
         document.body.style.direction = "ltr";

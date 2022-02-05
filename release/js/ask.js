@@ -10,7 +10,13 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                     isManual = false;
                     if (document.querySelector(".q-header") == null) {
                         if (document.querySelector(".ant-btn.action.ant-btn-primary") != null) {
-                            chrome.runtime.sendMessage({"method": "askComplete"});
+                            setTimeout(function () {
+                                chrome.runtime.sendMessage({"method": "learningComplete"}, {}, function (res) {
+                                    if (res.complete) {
+                                        window.close();
+                                    }
+                                });
+                            }, 10000 + Math.floor(Math.random() * 30 * 1000));
                             return;
                         } else {
                             setTimeoutFunc = setTimeout(getAnswers, parseInt(Math.random() * 1000 + 1000));
@@ -146,6 +152,9 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
 
                 function manualManage() {
                     if (document.querySelector("#my_ms") != null || !isManual) return;
+
+                    chrome.runtime.sendMessage({"method": "answerError"});
+
                     let ds_c = 0;
                     let ds_t = null;
                     ManageType = "wait";

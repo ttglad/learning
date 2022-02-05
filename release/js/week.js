@@ -29,7 +29,11 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                             document.querySelector('a.ant-pagination-item-link > i.anticon-left').click();
                             setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 2000));
                         } else {
-                            chrome.runtime.sendMessage({"method": "weekAskDoes"});
+                            chrome.runtime.sendMessage({"method": "weekAskDoes"}, {}, function (res) {
+                                if (res.complete) {
+                                    window.close();
+                                }
+                            });
                         }
                     }
                 }

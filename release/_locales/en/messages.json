@@ -46,5 +46,9 @@
   "extLearning": {
     "message": "Is Learning.., Please wait for end.",
     "description": ""
+  },
+  "extAnswerError": {
+    "message": "Please switch to manual learning.",
+    "description": ""
   }
 }

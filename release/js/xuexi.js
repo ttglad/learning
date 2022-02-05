@@ -10,30 +10,30 @@ XX.urlMap = {
     "weekAskUrl": "https://pc.xuexi.cn/points/exam-weekly-list.html",
     "paperAskUrl":  "https://pc.xuexi.cn/points/exam-paper-list.html",
     "articleUrl": [
-        "1jpuhp6fn73",  // ÖØÒª»î¶¯
-        "19vhj0omh73",  // ÖØÒª»áÒé
-        "132gdqo7l73",  // ÖØÒª½²»°
-        "35il6fpn0ohq", // Ñ§Ï°ÖØµã
-        "1ap1igfgdn2",  // Ñ§Ï°Ê±ÆÀ
-        "slu9169f72",   // ÖĞĞû²¿·¢²¼
-        "tuaihmuun2",   // ĞÂÎÄ·¢²¼Ìü
-        "1oo5atvs172",   // ÎÄ»¯¹ã³¡
-        "1eppcq11fne",   // ¿Æ¼¼Ë¼ÏëÑĞ¾¿
-        "152ijthp37e",   // ¿Æ¼¼Ç°ÑØ
-        "1jscb6pu1n2",   // ÖØÒªĞÂÎÅ
-        "1ajhkle8l72",   // ×ÛºÏĞÂÎÅ
+        "1jpuhp6fn73",  // é‡è¦æ´»åŠ¨
+        "19vhj0omh73",  // é‡è¦ä¼šè®®
+        "132gdqo7l73",  // é‡è¦è®²è¯
+        "35il6fpn0ohq", // å­¦ä¹ é‡ç‚¹
+        "1ap1igfgdn2",  // å­¦ä¹ æ—¶è¯„
+        "slu9169f72",   // ä¸­å®£éƒ¨å‘å¸ƒ
+        "tuaihmuun2",   // æ–°æ–‡å‘å¸ƒå…
+        "1oo5atvs172",   // æ–‡åŒ–å¹¿åœº
+        "1eppcq11fne",   // ç§‘æŠ€æ€æƒ³ç ”ç©¶
+        "152ijthp37e",   // ç§‘æŠ€å‰æ²¿
+        "1jscb6pu1n2",   // é‡è¦æ–°é—»
+        "1ajhkle8l72",   // ç»¼åˆæ–°é—»
     ],
     "videoUrl": [
-        "2qfjjjrprmdh",  // ¹ú·À¾üÊÂĞÂÎÄ
-        "3m1erqf28h0r",  // ºìÉ«¹ÊÊÂ
-        "525pi8vcj24p",  // ºìÉ«ÊéĞÅ
-        "48cdilh72vp4", // Éç»áÓë·¨
-        "1novbsbi47k",  // ÖØÒª»î¶¯ÊÓÆµ×¨¼­
-        "1742g60067k",   // Ñ§Ï°ĞÂÊÓ½ç
-        "1koo357ronk",   // Ñ§Ï°×¨Ìâ±¨µÀ
-        "vc9n1ga0nl",   // ÓÀÔ¶µÄ·á±®
-        "1f8iooppm7l",   // ÎÄÒÕ¹ã³¡
-        "1am3asi2enl",   // Î¢µçÓ°
+        "2qfjjjrprmdh",  // å›½é˜²å†›äº‹æ–°æ–‡
+        // "3m1erqf28h0r",  // çº¢è‰²æ•…äº‹
+        "525pi8vcj24p",  // çº¢è‰²ä¹¦ä¿¡
+        // "48cdilh72vp4", // ç¤¾ä¼šä¸æ³•
+        "1novbsbi47k",  // é‡è¦æ´»åŠ¨è§†é¢‘ä¸“è¾‘
+        "1742g60067k",   // å­¦ä¹ æ–°è§†ç•Œ
+        "1koo357ronk",   // å­¦ä¹ ä¸“é¢˜æŠ¥é“
+        "vc9n1ga0nl",   // æ°¸è¿œçš„ä¸°ç¢‘
+        "1f8iooppm7l",   // æ–‡è‰ºå¹¿åœº
+        // "1am3asi2enl",   // å¾®ç”µå½±
     ],
 };
 
@@ -42,6 +42,7 @@ XX.getPoints = function () {
     $.ajax({
         type: "GET",
         async: false,
+        timeout: 10000,
         url: XX.urlMap.scoreApi,
         success: function(data){
             result = data;
@@ -65,6 +66,7 @@ XX.getUrls = function (type) {
         $.ajax({
             type: "GET",
             async: false,
+            timeout: 10000,
             url: XX.urlMap.channelApi + key + ".json?_st=" + Math.floor(Date.now() / 6e4),
             success: function(res){
                 let list = [];
@@ -77,7 +79,7 @@ XX.getUrls = function (type) {
                     if (res[key].hasOwnProperty("url")) {
                         url = res[key].url;
 
-                        // ÅĞ¶Ï·¢²¼Ê±¼äÊÇ·ñÊÇ700ÌìÖ®ÄÚ£¬Èç¹ûÃ»ÓĞ£¬ÅĞ¶Ïurl¹æÔò
+                        // åˆ¤æ–­å‘å¸ƒæ—¶é—´æ˜¯å¦æ˜¯700å¤©ä¹‹å†…ï¼Œå¦‚æœæ²¡æœ‰ï¼Œåˆ¤æ–­urlè§„åˆ™
                         if (res[key].hasOwnProperty("publishTime")) {
                             publishTime = new Date(res[key].publishTime);
                             var lastYear = new Date(new Date() - 700 * 86400000);
@@ -98,7 +100,6 @@ XX.getUrls = function (type) {
                 }
                 if (list.length) {
                     result = Utils.ArrayRandom(list);
-                    // result = 'https://www.xuexi.cn/lgpage/detail/index.html?id=16982804095595194424&item_id=16982804095595194424';
                 }
             },
             error: function() {

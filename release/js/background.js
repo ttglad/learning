@@ -4,9 +4,17 @@ let windowHeight = 360 + Math.floor(Math.random() * 120);
 let chromeVersion = (/Chrome\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
 let firefoxVersion = (/Firefox\/([0-9]+)/.exec(navigator.userAgent) || [0, 0])[1];
 
-function startXuexi(timeout) {
+// 开始学习
+function startLearning(timeout) {
 
-    let newTime = 120000 + Math.floor(Math.random() * 30 * 1000);
+    // 学习结束中
+    if (!Settings.getObject("startLearning")) {
+        // 学习完成
+        closeWindow();
+        return
+    }
+
+    let newTime = Math.floor(Math.random() * 30 * 1000);
     let type;
     let url;
 
@@ -31,25 +39,46 @@ function startXuexi(timeout) {
                     url = XX.getUrls(type);
                     logMessage(new Date().toLocaleString() + ': type is: ' + type + ', url is: ' + url);
                     if (typeof (url) != "undefined" && url != null) {
+                        // createWindow(url, function (window) {
+                            // setTimeout(function () {
+                            //     closeWindow(window.id);
+                            //     startLearning(newTime);
+                            // }, 180000 + Math.floor(Math.random() * 30 * 1000));
+                        // });
                         if (url && scoreTabId && scoreWindowId) {
-
                             chrome.windows.get(scoreWindowId, {"populate": true}, function (window) {
                                 if (typeof window !== "undefined") {
+
+                        //             // 记录到已使用url
+                        //             // let usedUrls = Settings.getObject("usedUrls");
+                        //             // if (usedUrls.indexOf(url) === -1) {
+                        //             //     usedUrls.push(url);
+                        //             //     Settings.setObject("usedUrls", usedUrls);
+                        //             // }
+                        //
                                     chrome.tabs.sendMessage(window.tabs[window.tabs.length - 1].id, {
                                         "method": "redirect",
                                         "data": url
                                     });
-                                    startXuexi(newTime);
+                                    // startLearning(newTime);
                                 }
                             });
-
                         }
                     } else {
+
+                        // 获取页面失败
+                        setTimeout(function () {
+                            startLearning(newTime);
+                        }, Math.floor(10000 + Math.random() * 30 * 1000));
+
                         notice(chrome.i18n.getMessage("extChannelApi"), chrome.i18n.getMessage("extUpdate"));
                     }
                 } else {
                     // 学习完成
                     closeWindow();
+
+                    // 设置按钮
+                    Settings.setObject("startLearning", false);
 
                     notice(chrome.i18n.getMessage("extFinish"));
                 }
@@ -58,6 +87,12 @@ function startXuexi(timeout) {
                 chrome.tabs.update(scoreTabId, {"active": true, "url": getLoginUrl()});
             }
         } else {
+
+            // 获取积分差异
+            setTimeout(function () {
+                startLearning(newTime);
+            }, Math.floor(10000 + Math.random() * 30 * 1000));
+
             // 获取积分差异
             notice(chrome.i18n.getMessage("extScoreApi"), chrome.i18n.getMessage("extUpdate"));
         }
@@ -113,6 +148,11 @@ function getTypeByPoint(score) {
     }
 
     return type;
+}
+
+// 自动学习切换手动提示
+function answerWithError() {
+    notice(chrome.i18n.getMessage("extName"), chrome.i18n.getMessage("extAnswerError"))
 }
 
 // 打印日志
@@ -181,7 +221,7 @@ function getLoginUrl() {
 
 // 扩展点击事件
 function browserActionClick() {
-    if (scoreTabId) {
+    if (!Settings.getObject("startLearning")) {
         // 学习中
         notice(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extLearning"));
 
@@ -221,6 +261,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
 chrome.windows.onRemoved.addListener(function (windowId) {
     if (windowId === scoreWindowId) {
         scoreWindowId = 0;
+        Settings.setObject("startLearning", false);
         chrome.browserAction.setBadgeText({"text": ""});
     }
 });
@@ -228,25 +269,21 @@ chrome.windows.onRemoved.addListener(function (windowId) {
 
 //通信事件
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    // if (!Settings.getObject("startLearning")) {
+    //     logMessage("startLearning is false");
+    //     sendResponse({
+    //         "runtime": 0
+    //     });
+    //     return
+    // }
     switch (request.method) {
         case "checkTab":
-            if (sender.tab.windowId === scoreWindowId || sender.tab.id === scoreTabId) {
-                sendResponse({
-                    "runtime": 1
-                });
-            }
+            sendResponse({
+                "runtime": 1
+            });
             break;
         case "startRun":
-            if (scoreWindowId) {
-                startXuexi(1000 + Math.floor(Math.random() * 1000));
-            }
-            break;
-        case "useUrl":
-            let usedUrls = Settings.getObject("usedUrls");
-            if (usedUrls.indexOf(sender.tab.url) === -1) {
-                usedUrls.push(sender.tab.url);
-                Settings.setObject("usedUrls", usedUrls);
-            }
+            startLearning(1000 + Math.floor(Math.random() * 1000));
             break;
         case "chooseLogin":
             chooseLogin = 1;
@@ -255,26 +292,32 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
             });
             break;
         case "checkLogin":
-            if (sender.tab.id === scoreTabId) {
-                if (!chooseLogin) {
-                    chrome.tabs.update(scoreTabId, {"url": getLoginUrl()});
-                }
+            if (!chooseLogin) {
+                chrome.tabs.update(sender.tab.id, {"url": getLoginUrl()});
             }
             break;
         case "weekAskDoes":
             weekAskDoes = 1;
+            startLearning(1000 + Math.floor(Math.random() * 1000));
             sendResponse({
-                "weekAskDoes": weekAskDoes
+                "complete": 0
             });
             break;
         case "paperAskDoes":
             paperAskDoes = 1;
+            startLearning(1000 + Math.floor(Math.random() * 1000));
             sendResponse({
-                "paperAskDoes": paperAskDoes
+                "complete": 0
             });
             break;
-        case "askComplete":
-            // closeWindow();
+        case "answerError":
+            answerWithError();
+            break;
+        case "learningComplete":
+            startLearning(1000 + Math.floor(Math.random() * 1000));
+            sendResponse({
+                "complete": 0
+            });
             break;
     }
 });

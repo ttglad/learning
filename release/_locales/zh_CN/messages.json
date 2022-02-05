@@ -46,5 +46,9 @@
   "extLearning": {
     "message": "正在学习中，请等待.",
     "description": ""
+  },
+  "extAnswerError": {
+    "message": "自动学习错误，可切换手动学习.",
+    "description": ""
   }
 }
