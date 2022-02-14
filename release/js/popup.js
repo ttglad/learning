@@ -28,10 +28,6 @@ function init() {
         Settings.setObject("paperAnswer", true);
     }
 
-    if (typeof(Settings.getObject("usedUrls")) == "undefined") {
-        Settings.setObject("usedUrls", []);
-    }
-
     if (typeof(Settings.getValue("env")) == "undefined") {
         Settings.setValue("env", "idc");
     }

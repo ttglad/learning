@@ -49,13 +49,6 @@ function startLearning(timeout) {
                             chrome.windows.get(scoreWindowId, {"populate": true}, function (window) {
                                 if (typeof window !== "undefined") {
 
-                        //             // 记录到已使用url
-                        //             // let usedUrls = Settings.getObject("usedUrls");
-                        //             // if (usedUrls.indexOf(url) === -1) {
-                        //             //     usedUrls.push(url);
-                        //             //     Settings.setObject("usedUrls", usedUrls);
-                        //             // }
-                        //
                                     chrome.tabs.sendMessage(window.tabs[window.tabs.length - 1].id, {
                                         "method": "redirect",
                                         "data": url
@@ -269,13 +262,13 @@ chrome.windows.onRemoved.addListener(function (windowId) {
 
 //通信事件
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    // if (!Settings.getObject("startLearning")) {
-    //     logMessage("startLearning is false");
-    //     sendResponse({
-    //         "runtime": 0
-    //     });
-    //     return
-    // }
+    if (!Settings.getObject("startLearning")) {
+        logMessage("startLearning is false");
+        sendResponse({
+            "runtime": 0
+        });
+        return
+    }
     switch (request.method) {
         case "checkTab":
             sendResponse({

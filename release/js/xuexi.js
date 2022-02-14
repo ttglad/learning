@@ -92,8 +92,7 @@ XX.getUrls = function (type) {
                             }
                         }
 
-                        let usedUrls = Settings.getObject("usedUrls");
-                        if (list.indexOf(url) === -1 && usedUrls.indexOf(url) === -1) {
+                        if (list.indexOf(url) === -1) {
                             list.push(url);
                         }
                     }

@@ -9,7 +9,7 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
 
                 // 延迟执行
                 setTimeout(function () {
-                    let newTime = 100000;
+                    let newTime = 120000;
 
                     if (document.querySelector('video')) {
                         type = "video";
