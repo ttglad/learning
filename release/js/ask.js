@@ -207,7 +207,7 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
 
                 }
 
-                setTimeoutFunc = setTimeout(getAnswers, parseInt(Math.random() * 1000 + 2000));
+                setTimeoutFunc = setTimeout(getAnswers, parseInt(Math.random() * 2000 + 2000));
 
             }
         }

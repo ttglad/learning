@@ -31,9 +31,12 @@ XX.urlMap = {
         "1novbsbi47k",  // 重要活动视频专辑
         "1742g60067k",   // 学习新视界
         "1koo357ronk",   // 学习专题报道
-        "vc9n1ga0nl",   // 永远的丰碑
+        // "vc9n1ga0nl",   // 永远的丰碑
         "1f8iooppm7l",   // 文艺广场
         // "1am3asi2enl",   // 微电影
+        "eta8vnluqmd", // 军事科技
+        "16421k8267l", // 强军V视
+        "41gt3rsjd6l8", // 绿色发展
     ],
 };
 
