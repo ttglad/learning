@@ -17,7 +17,7 @@ function init() {
             {"type": "article", "sort": 1, "title": "文章学习", "time": 120, "flag": true, "subject": ""},
             {"type": "video", "sort": 2, "title": "视频学习", "time": 120, "flag": true, "subject": ""},
             {"type": "week", "sort": 3, "title": "每周答题", "time": 0, "flag": true, "subject": "current"},
-            {"type": "paper", "sort": 4, "title": "专项学习", "time": 0, "flag": true, "subject": "current"},
+            {"type": "paper", "sort": 4, "title": "专项答题", "time": 0, "flag": true, "subject": "current"},
             {"type": "day", "sort": 5, "title": "每日答题", "time": 0, "flag": true, "subject": ""}
         ];
         Settings.setObject("learningConfig", learningConfig);
