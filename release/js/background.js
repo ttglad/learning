@@ -97,48 +97,99 @@ function startLearning(timeout) {
 function getTypeByPoint(score) {
     let type;
 
+    let config = getConfig();
+    let task = new Array();
     for (let key in score) {
         if (!score.hasOwnProperty(key)) {
             continue;
         }
-
         if (score[key].taskCode.indexOf("1") != -1 || score[key].taskCode.indexOf("1002") != -1) {
+            task['article'] = false;
             if (score[key].currentScore < score[key].dayMaxScore) {
-                type = "article";
-                break;
+                task['article'] = true;
             }
         }
         if (score[key].taskCode.indexOf("2") != -1) {
+            task['video'] = false;
             if (score[key].currentScore < score[key].dayMaxScore) {
-                type = "video";
-                break;
+                task['video'] = true;
             }
         }
         if (score[key].taskCode.indexOf("1003") != -1) {
+            task['video'] = false;
             if (score[key].currentScore < score[key].dayMaxScore) {
-                type = "video";
-                break;
+                task['video'] = true;
             }
         }
-        if (Settings.getObject("paperAnswer") && score[key].taskCode.indexOf("4") != -1) {
+        if (score[key].taskCode.indexOf("4") != -1) {
+            task['paper'] = false;
             if (paperAskDoes == 0 && score[key].currentScore <= 0) {
-                type = "paperAsk";
-                break;
+                task['paper'] = true;
             }
         }
-        if (Settings.getObject("weekAnswer") && score[key].taskCode.indexOf("5") != -1) {
+        if (score[key].taskCode.indexOf("5") != -1) {
+            task['week'] = false;
             if (weekAskDoes == 0 && score[key].currentScore <= 0) {
-                type = "weekAsk";
-                break;
+                task['week'] = true;
             }
         }
-        if (Settings.getObject("dayAnswer") && score[key].taskCode.indexOf("6") != -1) {
+        if (score[key].taskCode.indexOf("6") != -1) {
+            task['day'] = false;
             if (score[key].currentScore < score[key].dayMaxScore) {
-                type = "dayAsk";
-                break;
+                task['day'] = true;
             }
         }
     }
+
+    for (let i = 0; i < config.length; i++) {
+        if (config[i].flag == true && task[config[i].type] == true) {
+            type = config[i].type;
+            break;
+        }
+    }
+
+    // for (let key in score) {
+    //     if (!score.hasOwnProperty(key)) {
+    //         continue;
+    //     }
+    //
+    //     if (score[key].taskCode.indexOf("1") != -1 || score[key].taskCode.indexOf("1002") != -1) {
+    //         if (score[key].currentScore < score[key].dayMaxScore) {
+    //             type = "article";
+    //             break;
+    //         }
+    //     }
+    //     if (score[key].taskCode.indexOf("2") != -1) {
+    //         if (score[key].currentScore < score[key].dayMaxScore) {
+    //             type = "video";
+    //             break;
+    //         }
+    //     }
+    //     if (score[key].taskCode.indexOf("1003") != -1) {
+    //         if (score[key].currentScore < score[key].dayMaxScore) {
+    //             type = "video";
+    //             break;
+    //         }
+    //     }
+    //     if (Settings.getObject("paperAnswer") && score[key].taskCode.indexOf("4") != -1) {
+    //         if (paperAskDoes == 0 && score[key].currentScore <= 0) {
+    //             type = "paperAsk";
+    //             break;
+    //         }
+    //     }
+    //     if (Settings.getObject("weekAnswer") && score[key].taskCode.indexOf("5") != -1) {
+    //         if (weekAskDoes == 0 && score[key].currentScore <= 0) {
+    //             type = "weekAsk";
+    //             break;
+    //         }
+    //     }
+    //     if (Settings.getObject("dayAnswer") && score[key].taskCode.indexOf("6") != -1) {
+    //         if (score[key].currentScore < score[key].dayMaxScore) {
+    //             type = "dayAsk";
+    //             break;
+    //         }
+    //     }
+    // }
 
     return type;
 }
@@ -234,6 +285,44 @@ function browserActionClick() {
     }
 }
 
+/**
+ * 打开配置页面
+ * @param firstTime
+ */
+function openOptions() {
+    var url = "html/options.html";
+
+    var fullUrl = chrome.extension.getURL(url);
+    chrome.tabs.getAllInWindow(null, function (tabs) {
+        for (var i in tabs) { // check if Options page is open already
+            if (tabs.hasOwnProperty(i)) {
+                var tab = tabs[i];
+                if (tab.url == fullUrl) {
+                    chrome.tabs.update(tab.id, { selected:true }); // select the tab
+                    return;
+                }
+            }
+        }
+        chrome.tabs.getSelected(null, function (tab) { // open a new tab next to currently selected tab
+            chrome.tabs.create({
+                url:url,
+                index:tab.index + 1
+            });
+        });
+    });
+}
+
+// 获取配置并排序
+function getConfig()
+{
+    let config = Settings.getObject("learningConfig");
+    config.sort(function (a, b) {
+        return a.sort - b.sort;
+    });
+
+    return config;
+}
+
 //扩展按钮点击事件
 chrome.browserAction.onClicked.addListener(function (tab) {
     if (chromeVersion < 45 && firefoxVersion < 48) {
@@ -272,7 +361,8 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     switch (request.method) {
         case "checkTab":
             sendResponse({
-                "runtime": 1
+                "runtime": 1,
+                "config": Settings.getObject("learningConfig")
             });
             break;
         case "startRun":

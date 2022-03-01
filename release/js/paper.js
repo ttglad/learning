@@ -73,9 +73,23 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                         }
                     }
                 }
+                let config = response.config;
+                let paperConfig = new Object();
+                for (let i = 0; i < config.length; i++) {
+                    if ("paper" == config[i].type) {
+                        paperConfig = config[i];
+                        break;
+                    }
+                }
 
-
-                setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 5000));
+                if (paperConfig.subject == "current") {
+                    setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 5000));
+                } else {
+                    var item = document.getElementsByClassName("ant-pagination-item");
+                    item[item.length - 1].click();
+                    // 设置查询非当年题目
+                    setTimeout(getNeedAnswerHistory, parseInt(Math.random() * 1000 + 5000));
+                }
             }
         }
     }

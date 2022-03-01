@@ -108,11 +108,11 @@ XX.getUrls = function (type) {
 
             }
         });
-    } else if (type == "paperAsk") {
+    } else if (type == "paper") {
         result = XX.urlMap.paperAskUrl;
-    } else if (type == "weekAsk") {
+    } else if (type == "week") {
         result = XX.urlMap.weekAskUrl;
-    } else if (type == "dayAsk") {
+    } else if (type == "day") {
         result = XX.urlMap.dayAskUrl;
     }
     return result;

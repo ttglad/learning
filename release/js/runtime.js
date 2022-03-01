@@ -3,17 +3,32 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
         if (response.runtime) {
 
             // window.onload = function () {
-                console.log("load");
 
+                let config = response.config;
                 let type = "article";
 
                 // 延迟执行
                 setTimeout(function () {
                     let newTime = 120000;
 
+                    // 获取配置时间
+                    for (var i = 0; i < config.length; i++) {
+                        if (config[i].type == type) {
+                            newTime = config[i].time * 1000;
+                            break;
+                        }
+                    }
+
                     if (document.querySelector('video')) {
                         type = "video";
-                        newTime = 180000;
+
+                        for (var i = 0; i < config.length; i++) {
+                            if (config[i].type == type) {
+                                newTime = config[i].time * 1000;
+                                break;
+                            }
+                        }
+
                         // 增加视频播放功能
 
                         let video = document.querySelector('video');
@@ -24,11 +39,11 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                         if (videoTime > 0 && videoTime < newTime) {
                             newTime = videoTime;
                         }
+
                     }
 
                     // 学习完成关闭页面
                     setTimeout(function () {
-                        console.log("learningComplete");
                         chrome.runtime.sendMessage({"method": "learningComplete"}, {}, function (res) {
                             if (res.complete) {
                                 window.close();

@@ -1,0 +1,488 @@
+body {
+    padding: 0 18%;
+    cursor: default;
+    background-color: #fafbff;
+
+    visibility: hidden;
+}
+
+body, td, input, select, textarea, button {
+    color: #4e607d;
+    font: menu;
+    font-size: 9pt;
+}
+
+hr {
+    height: 0;
+    border: 0;
+    border-top: solid 1px #ddd;
+    margin: 15px 0;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.button {
+    min-width: 120px;
+    color: #567;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    padding: 6px;
+    border: solid 1px #abc;
+    border-radius: 2px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.4, hsl(0, 0%, 96%)), color-stop(0.41, hsl(0, 0%, 92%)));
+    -webkit-box-shadow: 0 1px 2px #ddd;
+}
+
+.button.bold {
+    font-weight: bold;
+}
+
+.button:hover {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.4, hsl(215, 67%, 96%)), color-stop(0.41, hsl(213, 48%, 92%)));
+}
+
+.button:active {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e0e9f4), color-stop(1, #f5f9f4));
+}
+
+.button img {
+    vertical-align: text-bottom;;
+}
+
+#optionsTable {
+    width: 100%;
+}
+
+#optionsTable td {
+    padding: 0;
+}
+
+#header {
+    font-size: 18pt;
+    text-shadow: #ccc 1px 1px 3px;
+    border: solid 1px #abc;
+    border-radius: 6px;
+    padding: 3px;
+    margin-bottom: 10px;
+    background-color: #eaeeff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.48, hsl(217, 73%, 97%)), color-stop(0.51, hsl(217, 62%, 95%)));
+    -webkit-box-shadow: 0 1px 2px #ddd;
+}
+
+#header img {
+    vertical-align: middle;
+    margin: 0 4px;
+}
+
+#header * {
+    font-size: 18pt;
+    text-shadow: #ccc 1px 1px 3px;
+}
+
+#header .close {
+    padding: 15px;
+    cursor: pointer;
+}
+
+#tabsRow td {
+    background-color: #f8fafd;
+    border-bottom: solid 1px #d1dbdf;
+}
+
+#tabRulesBody {
+    display: none;
+}
+
+.cover {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+#body {
+    height: 100%;
+    padding: 13px;
+    border: solid 1px #abc;
+    border-radius: 0 0 6px 6px;
+    background-color: hsl(216, 56%, 98%);
+    -webkit-box-shadow: 0 0 2px #eee;
+}
+
+#body .title {
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+#body .control {
+    text-align: right;
+}
+
+#body .spacer, #body .spacer25 {
+    height: 25px;
+}
+
+#body .spacer20 {
+    height: 20px;
+}
+
+#body .spacer10 {
+    height: 10px;
+}
+
+#body .spacer5 {
+    height: 5px;
+}
+
+#proxyProfiles, .rulesTable {
+    width: 100%;
+    height: 100%;
+    border: solid 1px #d0d6d9;
+    border-spacing: 1px;
+    margin-bottom: 10px;
+    table-layout: fixed;
+}
+
+#proxyProfiles th, #proxyProfiles td, .rulesTable th, .rulesTable td {
+    text-align: start;
+}
+
+#proxyProfiles th, .rulesTable th {
+    height: 28px;
+    padding: 0 8px;
+    font-size: 9pt;
+    font-weight: normal;
+    border: solid 0 #d2e4e9;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.48, hsl(217, 73%, 96%)), color-stop(0.51, hsl(217, 62%, 94%)));
+}
+
+#proxyProfiles td {
+    height: 28px;
+    border: solid 1px #e0e4e6;
+    overflow: hidden;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #fafbff;
+}
+
+#proxyProfiles tr:nth-child(odd) td {
+    background-color: #f8fafc;
+}
+
+.rulesTable {
+    border-spacing: 0;
+    -webkit-box-shadow: 0 0 2px #ddd;
+}
+
+.rulesTable th {
+    border-left: solid 1px #e2e7e9;
+    border-bottom: solid 1px #d7dbe0;
+    font-weight: bold;
+    color: #6e809d;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.rulesTable td {
+    height: 29px;
+    border-top: solid 1px #e2e7e9;
+    border-left: solid 1px #e2e7e9;
+    background-color: #fafcfe;
+    overflow: hidden;
+    padding: 1px;
+}
+
+.rulesTable tr:nth-child(odd) td {
+    background-color: #f8fafc;
+}
+
+.rulesTable .defaultRow td {
+    background-color: #f0f3f4 !important;
+}
+
+#proxyProfiles .selected td {
+    border: solid 1px #cde;
+    font-size: 9pt;
+    font-weight: bold;
+    background-color: #dae4ff !important;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, hsl(217, 62%, 95%)), color-stop(1, hsl(217, 62%, 91%)));
+}
+
+#proxyProfiles td:first-child {
+    padding: 0 8px;
+    white-space: nowrap;
+}
+
+#proxyProfiles td:last-child {
+    text-align: center;
+}
+
+#proxyProfiles td input, .rulesTable td input {
+    width: 97% !important;
+    min-height: 24px;
+    height: 100%;
+    padding: 0 3px;
+    display: none;
+}
+
+.rulesTable td select {
+    display: block;
+    border: solid 1px #ccddee;
+    width: 100% !important;
+    min-height: 22px;
+    height: 22px !important;
+    margin: 0 2px 0 0;
+}
+
+#rulesTable td select:hover {
+    background-color: #fff;
+    border: solid 1px #ccddee;
+}
+
+.rulesTable td input[type='radio'] {
+    display: inline-block;
+    width: auto;
+}
+
+.rulesTable td input {
+    font-size: 9pt;
+    z-index: 30;
+}
+
+.rulesTable td .tag {
+    position: relative;
+    z-index: 100;
+    float: right;
+    font-size: 8pt;
+    background-color: #8ac;
+    color: #fff;
+    padding: 2px;
+    margin-right: 4px;
+    border-radius: 3px;
+}
+
+#configListTable input {
+    display: block;
+}
+
+#proxyProfiles td span, .rulesTable td span {
+    -webkit-padding-start: 6px;
+}
+
+#proxyProfiles td img, .rulesTable td img {
+    cursor: pointer;
+}
+
+.color {
+    height: 100%;
+    padding: 6px;
+}
+
+.color div {
+    cursor: pointer;
+    height: 100%;
+}
+
+.blue {
+    background-color: #9ce;
+    outline: solid 1px #7ac;
+}
+
+.green {
+    background-color: #9d9;
+    outline: solid 1px #7b7;
+}
+
+.red {
+    background-color: #fa8;
+    outline: solid 1px #d86;
+}
+
+.yellow {
+    background-color: #fe9;
+    outline: solid 1px #dc7;
+}
+
+.purple {
+    background-color: #d497ee;
+    outline: 1px solid #b477ce;
+}
+
+.cblue {
+    color: #47b;
+}
+
+.cgreen {
+    color: #5b5;
+}
+
+.cred {
+    color: #d63;
+}
+
+.cyellow {
+    color: #ca0;
+}
+
+span.indent {
+    -webkit-padding-start: 16px;
+}
+
+.tab div.indent {
+    -webkit-padding-start: 16px;
+    padding-bottom: 8px;
+}
+
+#tabRulesBody td, #tabNetworkBody td, #tabGeneralBody td, #tabImportExportBody td {
+    white-space: nowrap;
+    padding: 2px;
+}
+
+#tabRulesBody select, #tabNetworkBody select, #tabGeneralBody select, #tabImportExportBody select {
+    width: 200px;
+    height: 140%;
+}
+
+#tabRulesBody td:nth-child(2), #tabNetworkBody td:nth-child(2), #tabGeneralBody td:nth-child(2), #tabImportExportBody td:nth-child(2) {
+    width: 100%;
+}
+
+#configListTable select {
+    height: 22px;
+}
+
+#configListTable input, #configListTable select {
+    width: 100%;
+}
+
+#showUpgradePopup {
+    position: relative;
+    text-decoration: none;
+}
+
+#showUpgradePopup > img {
+    width: 50px;
+}
+
+#showUpgradePopup > span {
+    font-weight: bold;
+    color: #5ab432;
+}
+
+#upgradePopup {
+    margin: 10% auto 0;
+    width: 50%;
+    min-width: 800px;
+    padding: 7px;
+    background-color: #fafbff;
+    border-radius: 5px;
+}
+
+#upgradePopup h2 {
+    margin: 0;
+}
+
+#upgradePopup * {
+    color: #5e708d;
+}
+
+#upgradePopup table {
+    border-spacing: 1px;
+    padding: 7px;
+    table-layout: fixed;
+}
+
+#upgradePopup table th {
+    text-align: start;
+}
+
+#upgradePopup table th {
+    height: 28px;
+    padding-left: 8px;
+    padding-right: 8px;
+    -webkit-padding-start: 0;
+    font-size: 9pt;
+    font-weight: normal;
+}
+
+#upgradePopup table td {
+    height: 28px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+#upgradePopup input, #upgradePopup select {
+    width: 250px;
+    min-height: 24px;
+    height: 100%;
+    -webkit-padding-start: 3px;
+}
+
+#upgradePopup .button {
+    width: 100px;
+    color: #567;
+    display: inline-block;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px;
+    border: solid 1px #abc;
+    border-radius: 2px;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.4, hsl(0, 0%, 97%)), color-stop(0.41, hsl(0, 0%, 94%)));
+    -webkit-box-shadow: 0 1px 2px #ddd;
+}
+
+#upgradePopup .button.bold {
+    font-weight: bold;
+}
+
+#upgradePopup .button:hover {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.4, hsl(215, 67%, 97%)), color-stop(0.41, hsl(213, 48%, 94%)));
+}
+
+#upgradePopup .button:active {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e0e9f4), color-stop(1, #f5f9f4));
+}
+
+#upgradePopup .button img {
+    vertical-align: text-bottom;;
+}
+
+#upgradePopup .header {
+    font-weight: bold;
+    border: solid 1px #abc;
+    border-radius: 2px;
+    padding: 8px;
+    margin-bottom: 9px;
+    background-color: #eaeeff;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(0.48, hsl(217, 73%, 98%)), color-stop(0.51, hsl(217, 62%, 96%)));
+}
+
+#upgradePopup .header.light {
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fafcff), color-stop(1, #eff3fe));
+}
+
+#upgradePopup .header.title {
+    -webkit-padding-start: 14px;
+}
+
+#upgradePopup .note {
+    display: none;
+}
+
+#upgradePopup .note > * {
+    height: auto !important;
+    padding-bottom: 6px;
+}
+
+#upgradePopup .control {
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 0;
+}
+
+#upgradePopup .control td {
+    padding: 0;
+}
