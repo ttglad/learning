@@ -292,21 +292,21 @@ function browserActionClick() {
 function openOptions() {
     var url = "html/options.html";
 
-    var fullUrl = chrome.extension.getURL(url);
-    chrome.tabs.getAllInWindow(null, function (tabs) {
+    var fullUrl = chrome.runtime.getURL(url);
+    chrome.tabs.query({currentWindow: true}, function (tabs) {
         for (var i in tabs) { // check if Options page is open already
             if (tabs.hasOwnProperty(i)) {
                 var tab = tabs[i];
                 if (tab.url == fullUrl) {
-                    chrome.tabs.update(tab.id, { selected:true }); // select the tab
+                    chrome.tabs.update(tab.id, {selected: true}); // select the tab
                     return;
                 }
             }
         }
-        chrome.tabs.getSelected(null, function (tab) { // open a new tab next to currently selected tab
+        chrome.tabs.query({active: true}, function (tabs) {
             chrome.tabs.create({
-                url:url,
-                index:tab.index + 1
+                url: url,
+                index: tabs[0].index + 1
             });
         });
     });
