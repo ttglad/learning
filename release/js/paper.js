@@ -85,10 +85,14 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                 if (paperConfig.subject == "current") {
                     setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 5000));
                 } else {
-                    var item = document.getElementsByClassName("ant-pagination-item");
-                    item[item.length - 1].click();
                     // 设置查询非当年题目
-                    setTimeout(getNeedAnswerHistory, parseInt(Math.random() * 1000 + 5000));
+                    setTimeout(function () {
+                        // 点击最后一页
+                        var item = document.getElementsByClassName("ant-pagination-item");
+                        item[item.length - 1].click();
+
+                        setTimeout(getNeedAnswerHistory, parseInt(Math.random() * 1000 + 2000));
+                    }, parseInt(Math.random() * 1000 + 5000));
                 }
             }
         }

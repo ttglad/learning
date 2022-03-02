@@ -99,42 +99,41 @@ function getTypeByPoint(score) {
 
     let config = getConfig();
     let task = new Array();
+    task['article'] = false;
+    task['video'] = false;
+    task['paper'] = false;
+    task['week'] = false;
+    task['day'] = false;
     for (let key in score) {
         if (!score.hasOwnProperty(key)) {
             continue;
         }
-        if (score[key].taskCode.indexOf("1") != -1 || score[key].taskCode.indexOf("1002") != -1) {
-            task['article'] = false;
+        if (task['article'] == false && (score[key].taskCode.indexOf("1") != -1 || score[key].taskCode.indexOf("1002") != -1)) {
             if (score[key].currentScore < score[key].dayMaxScore) {
                 task['article'] = true;
             }
         }
-        if (score[key].taskCode.indexOf("2") != -1) {
-            task['video'] = false;
+        if (task['video'] == false && score[key].taskCode.indexOf("2") != -1) {
             if (score[key].currentScore < score[key].dayMaxScore) {
                 task['video'] = true;
             }
         }
-        if (score[key].taskCode.indexOf("1003") != -1) {
-            task['video'] = false;
+        if (task['video'] == false && score[key].taskCode.indexOf("1003") != -1) {
             if (score[key].currentScore < score[key].dayMaxScore) {
                 task['video'] = true;
             }
         }
-        if (score[key].taskCode.indexOf("4") != -1) {
-            task['paper'] = false;
+        if (task['paper'] == false && score[key].taskCode.indexOf("4") != -1) {
             if (paperAskDoes == 0 && score[key].currentScore <= 0) {
                 task['paper'] = true;
             }
         }
-        if (score[key].taskCode.indexOf("5") != -1) {
-            task['week'] = false;
+        if (task['week'] == false && score[key].taskCode.indexOf("5") != -1) {
             if (weekAskDoes == 0 && score[key].currentScore <= 0) {
                 task['week'] = true;
             }
         }
-        if (score[key].taskCode.indexOf("6") != -1) {
-            task['day'] = false;
+        if (task['day'] == false && score[key].taskCode.indexOf("6") != -1) {
             if (score[key].currentScore < score[key].dayMaxScore) {
                 task['day'] = true;
             }
