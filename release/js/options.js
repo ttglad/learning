@@ -16,6 +16,7 @@ function loadConfigView() {
             html += getViewDetail(learningConfig[i]);
         }
         $(html).appendTo("#configListTable");
+   
     }
 }
 
@@ -124,7 +125,8 @@ function saveOptions() {
         return a.sort - b.sort;
     });
 
-    Settings.setObject("learningConfig", config);
+    Settings.setObject("learningConfig", config); 
+    location.reload();
 }
 
 
