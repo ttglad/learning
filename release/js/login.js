@@ -2,8 +2,10 @@ chrome.runtime.sendMessage({"method": "chooseLogin"}, {}, function (response) {
     window.onload = function () {
 
         setTimeout(function () {
-            document.querySelector(".qrcode-box").scrollIntoView({
-                behavior: "smooth"
+            document.querySelector("#qglogin").scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center",
             });
         }, 500);
 
