@@ -1,27 +1,26 @@
-chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
+chrome.runtime.sendMessage({ type: "checkAuth" }, {}, function (response) {
     if (response && response.hasOwnProperty("runtime")) {
         if (response.runtime) {
-
             window.onload = function () {
 
-                // 设置1s，优先执行
-                // setTimeout(function () {
+
+                // 设置1s
+                // setTimeout(function() {
                 //     var item = document.getElementsByClassName("ant-pagination-item");
                 //     item[item.length - 1].click();
                 // }, 3000);
 
                 function getNeedAnswer() {
                     var isNextPage = true;
-                    document.querySelectorAll('.week > button').forEach(function (e, b, c) {
+                    document.querySelectorAll('.item .right > button').forEach(function (e, b, c) {
                         if (isNextPage) {
+                            let year = e.parentNode.parentNode.firstElementChild.lastElementChild.innerText.slice(0, 4);
                             let i = e.innerText;
-                            let year = e.parentNode.firstElementChild.firstElementChild.innerText.slice(0, 4);
-                            if (i != "" && i == '开始答题') {
+                            if (i != "" && (i == '开始答题' || i == '继续答题')) {
                                 isNextPage = false;
                                 if (year != "" && (new Date().getFullYear() == year)) {
                                     e.click();
                                 } else {
-                                    // 点击最后一页
                                     var item = document.getElementsByClassName("ant-pagination-item");
                                     item[item.length - 1].click();
                                     // 设置查询非当年题目
@@ -38,7 +37,7 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                             document.querySelector('a.ant-pagination-item-link > i.anticon-right').click();
                             setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 2000));
                         } else {
-                            chrome.runtime.sendMessage({"method": "weekAskDoes"}, {}, function (res) {
+                            chrome.runtime.sendMessage({ type: "paperAskDoes" }, {}, function (res) {
                                 if (res.complete) {
                                     window.close();
                                 }
@@ -49,10 +48,10 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
 
                 function getNeedAnswerHistory() {
                     var isNextPage = true;
-                    Array.from(document.querySelectorAll('.week > button')).reverse().forEach(function (e, b, c) {
+                    Array.from(document.querySelectorAll('.item .right > button')).reverse().forEach(function (e, b, c) {
                         if (isNextPage) {
                             let i = e.innerText;
-                            if (i != "" && i == '开始答题') {
+                            if (i != "" && (i == '开始答题' || i == '继续答题')) {
                                 isNextPage = false;
                                 e.click();
                                 return;
@@ -66,7 +65,7 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                             document.querySelector('a.ant-pagination-item-link > i.anticon-left').click();
                             setTimeout(getNeedAnswerHistory, parseInt(Math.random() * 1000 + 2000));
                         } else {
-                            chrome.runtime.sendMessage({"method": "weekAskDoes"}, {}, function (res) {
+                            chrome.runtime.sendMessage({ type: "paperAskDoes" }, {}, function (res) {
                                 if (res.complete) {
                                     window.close();
                                 }
@@ -75,26 +74,30 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                     }
                 }
 
-                let config = response.config;
-                let weekConfig = new Object();
-                for (let i = 0; i < config.length; i++) {
-                    if ("week" == config[i].type) {
-                        weekConfig = config[i];
-                        break;
+                chrome.storage.local.get(['studySubjectConfig'], function (result) {
+                    let config = result.studySubjectConfig;
+                    let paperConfig = new Object();
+                    for (let i = 0; i < config.length; i++) {
+                        if ("paper" == config[i].type) {
+                            paperConfig = config[i];
+                            break;
+                        }
                     }
-                }
 
-                if (weekConfig.subject == "current") {
-                    setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 5000));
-                } else {
-                    // 设置查询非当年题目
-                    setTimeout(function () {
-                        var item = document.getElementsByClassName("ant-pagination-item");
-                        item[item.length - 1].click();
+                    if (paperConfig.subject == "current") {
+                        setTimeout(getNeedAnswer, parseInt(Math.random() * 1000 + 5000));
+                    } else {
+                        // 设置查询非当年题目
+                        setTimeout(function () {
+                            // 点击最后一页
+                            var item = document.getElementsByClassName("ant-pagination-item");
+                            item[item.length - 1].click();
 
-                        setTimeout(getNeedAnswerHistory, parseInt(Math.random() * 1000 + 2000));
-                    }, parseInt(Math.random() * 1000 + 5000));
-                }
+                            setTimeout(getNeedAnswerHistory, parseInt(Math.random() * 1000 + 2000));
+                        }, parseInt(Math.random() * 1000 + 5000));
+                    }
+                });
+
             }
         }
     }

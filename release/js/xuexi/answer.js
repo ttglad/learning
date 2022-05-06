@@ -1,4 +1,4 @@
-chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
+chrome.runtime.sendMessage({ type: "checkAuth" }, {}, function (response) {
     if (response && response.hasOwnProperty("runtime")) {
         if (response.runtime) {
             window.onload = function () {
@@ -11,7 +11,7 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                     if (document.querySelector(".q-header") == null) {
                         if (document.querySelector(".ant-btn.action.ant-btn-primary") != null) {
                             setTimeout(function () {
-                                chrome.runtime.sendMessage({"method": "learningComplete"}, {}, function (res) {
+                                chrome.runtime.sendMessage({ type: "studyComplete" }, {}, function (res) {
                                     if (res.complete) {
                                         window.close();
                                     }
@@ -103,7 +103,7 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                             var inputs_e = document.querySelectorAll('.q-body input[value=""]');
                             answerChoseNum = inpus.length - inputs_e.length;
                             if (inputs_e.length > 0) {
-                                var ev = new Event('input', {bubbles: true});
+                                var ev = new Event('input', { bubbles: true });
                                 inpus.forEach(function (a, b, c) {
                                     if (answerArray[0] == undefined) {
                                         isManual = true;
@@ -153,7 +153,7 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                 function manualManage() {
                     if (document.querySelector("#my_ms") != null || !isManual) return;
 
-                    chrome.runtime.sendMessage({"method": "answerError"});
+                    chrome.runtime.sendMessage({ type: "answerError" });
 
                     let ds_c = 0;
                     let ds_t = null;

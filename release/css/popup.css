@@ -8,7 +8,13 @@ body {
     visibility: hidden;
 }
 
-body, td, th, input, select, textarea, button {
+body,
+td,
+th,
+input,
+select,
+textarea,
+button {
     font: menu;
     font-size: 9pt;
 }
@@ -24,7 +30,8 @@ hr {
     border-top: solid 1px #eef;
 }
 
-.ltr, .ltr * {
+.ltr,
+.ltr * {
     direction: ltr !important;
     text-align: left !important;
 }
@@ -112,7 +119,8 @@ hr {
     border-top: 1px solid #ddd;
 }
 
-#menuError, #separatorError {
+#menuError,
+#separatorError {
     display: none;
 }
 
@@ -195,7 +203,8 @@ hr {
     white-space: nowrap;
 }
 
-#about .close, #addRule .close {
+#about .close,
+#addRule .close {
     position: absolute;
     right: 10px;
     cursor: pointer;
@@ -206,7 +215,8 @@ hr {
     padding: 10px;
 }
 
-#about .close img, #addRule .close img {
+#about .close img,
+#addRule .close img {
     cursor: pointer;
 }
 
@@ -283,7 +293,8 @@ hr {
     vertical-align: middle;
 }
 
-#addRule input, #addRule select {
+#addRule input,
+#addRule select {
     width: 250px;
     min-height: 24px;
     height: 100%;
@@ -316,7 +327,8 @@ hr {
 }
 
 #addRule .button img {
-    vertical-align: text-bottom;;
+    vertical-align: text-bottom;
+    ;
 }
 
 #addRule .header {
@@ -341,7 +353,7 @@ hr {
     display: none;
 }
 
-#addRule .note > * {
+#addRule .note>* {
     height: auto !important;
     padding-bottom: 6px;
 }

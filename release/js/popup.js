@@ -2,46 +2,12 @@ var extension;
 
 var App;
 
-var Settings;
-
 function init() {
-    extension = chrome.extension.getBackgroundPage();
     App = chrome.runtime.getManifest();
-    Settings = extension.Settings;
     document.body.style.visibility = "visible";
 
     $(".versionNumber").text(App.version);
 
-    if (typeof (Settings.getObject("learningConfig")) == "undefined") {
-        let learningConfig = [
-            {"type": "article", "sort": 1, "title": "文章学习", "time": 120, "flag": true, "subject": ""},
-            {"type": "video", "sort": 2, "title": "视频学习", "time": 120, "flag": true, "subject": ""},
-            {"type": "week", "sort": 3, "title": "每周答题", "time": 0, "flag": true, "subject": "current"},
-            {"type": "paper", "sort": 4, "title": "专项答题", "time": 0, "flag": true, "subject": "current"},
-            {"type": "day", "sort": 5, "title": "每日答题", "time": 0, "flag": true, "subject": ""}
-        ];
-        Settings.setObject("learningConfig", learningConfig);
-    }
-
-    if (typeof (Settings.getObject("startLearning")) == "undefined") {
-        Settings.setObject("startLearning", false);
-    }
-
-    // if (typeof (Settings.getObject("dayAnswer")) == "undefined") {
-    //     Settings.setObject("dayAnswer", true);
-    // }
-    //
-    // if (typeof (Settings.getObject("weekAnswer")) == "undefined") {
-    //     Settings.setObject("weekAnswer", true);
-    // }
-    //
-    // if (typeof (Settings.getObject("paperAnswer")) == "undefined") {
-    //     Settings.setObject("paperAnswer", true);
-    // }
-
-    if (typeof (Settings.getValue("env")) == "undefined") {
-        Settings.setValue("env", "idc");
-    }
 
     // 初始化数据
     $(".answer").each(function () {
@@ -49,47 +15,52 @@ function init() {
         var child = $(this).children("div.icon")[0];
 
         // 获取配置信息
-        let learningConfig = Settings.getObject("learningConfig");
-        for (let i = 0; i < learningConfig.length; i++) {
-            if (attrKey == learningConfig[i].type) {
-                if (!learningConfig[i].flag) {
-                    $(child).removeClass("checked");
-                } else {
-                    $(child).addClass("checked")
+        chrome.storage.local.get(['studySubjectConfig'], function (result) {
+            let studySubjectConfig = result.studySubjectConfig
+            for (let i = 0; i < studySubjectConfig.length; i++) {
+                if (attrKey == studySubjectConfig[i].type) {
+                    if (!studySubjectConfig[i].flag) {
+                        $(child).removeClass("checked");
+                    } else {
+                        $(child).addClass("checked")
+                    }
+                    break;
                 }
-                break;
             }
-        }
-
-        // if (!Settings.getObject(attrKey)) {
-        //     $(child).removeClass("checked");
-        // } else {
-        //     $(child).addClass("checked")
-        // }
+        });
     });
 
-    var start = Settings.getObject("startLearning");
-    if (start) {
-        $("#learning span:first").text('结束学习');
-    } else {
-        $("#learning span:first").text('开始学习');
-    }
+    // 开始按钮展示
+    chrome.storage.local.get(['studyWindowId'], function (result) {
+        if (result.studyWindowId) {
+            $("#learning span:first").text('结束学习');
+        } else {
+            $("#learning span:first").text('开始学习');
+        }
+    });
 }
 
-$(document).ready(function () {
+// 初始化
+jQuery(function () {
     init();
 
     // 学习按钮
     $("#learning").off("click").on("click", function () {
-        var start = Settings.getObject("startLearning");
-        if (!start) {
-            Settings.setObject("startLearning", true);
-            extension.browserActionClick();
-        } else {
-            Settings.setObject("startLearning", false);
-            extension.closeWindow();
-        }
-        window.close();
+        chrome.storage.local.get(["studyWindowId"], function (result) {
+            if (!result.studyWindowId) {
+                chrome.runtime.sendMessage({ type: "startStudy" }, (response) => {
+                    if (response.complete) {
+                        window.close();
+                    }
+                });
+            } else {
+                chrome.runtime.sendMessage({ type: "stopStudy" }, (response) => {
+                    if (response.complete) {
+                        window.close();
+                    }
+                });
+            }
+        });
     });
 
 
@@ -98,34 +69,49 @@ $(document).ready(function () {
         var attrKey = $(this).attr("attr");
         var child = $(this).children("div.icon")[0];
 
-        let learningConfig = Settings.getObject("learningConfig");
-        let config = new Array();
-        for (let i = 0; i < learningConfig.length; i++) {
-            if (attrKey == learningConfig[i].type) {
-                if (learningConfig[i].flag) {
-                    learningConfig[i].flag = false;
-                    $(child).removeClass("checked");
-                } else {
-                    learningConfig[i].flag = true;
-                    $(child).addClass("checked")
+        chrome.storage.local.get(['studySubjectConfig'], function (result) {
+            let config = new Array();
+            let studySubjectConfig = result.studySubjectConfig
+            for (let i = 0; i < studySubjectConfig.length; i++) {
+                if (attrKey == studySubjectConfig[i].type) {
+                    if (studySubjectConfig[i].flag) {
+                        studySubjectConfig[i].flag = false;
+                        $(child).removeClass("checked");
+                    } else {
+                        studySubjectConfig[i].flag = true;
+                        $(child).addClass("checked")
+                    }
                 }
+                config.push(studySubjectConfig[i]);
             }
-            config.push(learningConfig[i]);
-        }
-        Settings.setObject("learningConfig", config);
+            // 设置初始数据
+            chrome.storage.local.set({ "studySubjectConfig": config }, function () {
+                console.log("data init success");
+            });
+        });
 
-        // if (Settings.getObject(attrKey)) {
-        //     Settings.setObject(attrKey, false);
-        //     $(child).removeClass("checked");
-        // } else {
-        //     Settings.setObject(attrKey, true);
-        //     $(child).addClass("checked")
-        // }
     });
 
     // 配置选项
     $("#menuOptions").off('click').on('click', function () {
-        extension.openOptions();
+        let fullUrl = chrome.runtime.getURL("html/options.html");
+        chrome.tabs.query({ currentWindow: true }, function (tabs) {
+            for (let i in tabs) { // check if Options page is open already
+                if (tabs.hasOwnProperty(i)) {
+                    let tab = tabs[i];
+                    if (tab.url == fullUrl) {
+                        chrome.tabs.update(tab.id, { selected: true }); // select the tab
+                        return;
+                    }
+                }
+            }
+            chrome.tabs.query({ active: true }, function (tabs) {
+                chrome.tabs.create({
+                    url: fullUrl,
+                    index: tabs[0].index + 1
+                });
+            });
+        });
     });
 
     // 关于展示

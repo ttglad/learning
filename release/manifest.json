@@ -1,33 +1,27 @@
 {
-  "manifest_version": 2,
   "name": "__MSG_extName__",
-  "version": "2.0.6",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
+  "version": "3.0.0",
+  "manifest_version": 3,
   "icons": {
     "16": "img/icon/icon_16x16.png",
     "32": "img/icon/icon_32x32.png",
     "48": "img/icon/icon_48x48.png",
     "128": "img/icon/icon_128x128.png"
   },
-  "browser_action": {
-    "default_icon": "img/icon/icon_128x128.png",
+  "action": {
     "default_popup": "html/popup.html",
+    "default_icon": "img/icon/icon_128x128.png",
     "default_title": "__MSG_extPopTitle__"
   },
   "background": {
-    "scripts": [
-      "libs/jquery.js",
-      "libs/settings.js",
-      "libs/utils.js",
-      "js/xuexi.js",
-      "js/background.js"
-    ]
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
       "js": [
-        "js/login.js"
+        "js/xuexi/login.js"
       ],
       "matches": [
         "*://pc.xuexi.cn/points/login.html*"
@@ -35,7 +29,7 @@
     },
     {
       "js": [
-        "js/points.js"
+        "js/xuexi/points.js"
       ],
       "matches": [
         "*://pc.xuexi.cn/points/my-points.html*"
@@ -43,7 +37,23 @@
     },
     {
       "js": [
-        "js/ask.js"
+        "js/xuexi/detail.js"
+      ],
+      "matches": [
+        "*://www.xuexi.cn/lgpage/detail/index.html*"
+      ]
+    },
+    {
+      "js": [
+        "js/xuexi/redirect.js"
+      ],
+      "matches": [
+        "*://*.xuexi.cn/*"
+      ]
+    },
+    {
+      "js": [
+        "js/xuexi/answer.js"
       ],
       "matches": [
         "*://pc.xuexi.cn/points/exam-practice.html*",
@@ -53,7 +63,7 @@
     },
     {
       "js": [
-        "js/week.js"
+        "js/xuexi/week.js"
       ],
       "matches": [
         "*://pc.xuexi.cn/points/exam-weekly-list.html*"
@@ -61,33 +71,24 @@
     },
     {
       "js": [
-        "js/paper.js"
+        "js/xuexi/paper.js"
       ],
       "matches": [
         "*://pc.xuexi.cn/points/exam-paper-list.html*"
       ]
-    },
-    {
-      "js": [
-        "js/runtime.js"
-      ],
-      "matches": [
-        "*://www.xuexi.cn/lgpage/detail/index.html*"
-      ]
-    },
-    {
-      "js": [
-        "js/redirect.js"
-      ],
-      "matches": [
-        "*://*.xuexi.cn/*"
-      ]
     }
   ],
+  "externally_connectable": {
+    "matches": [
+      "*://*.xuexi.cn/*"
+    ]
+  },
   "permissions": [
-    "*://*.xuexi.cn/*",
     "tabs",
     "notifications",
     "storage"
+  ],
+  "host_permissions": [
+    "*://*.xuexi.cn/*"
   ]
 }

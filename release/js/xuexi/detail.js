@@ -1,10 +1,9 @@
-chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
+chrome.runtime.sendMessage({ type: "checkAuth" }, {}, function (response) {
     if (response && response.hasOwnProperty("runtime")) {
         if (response.runtime) {
 
-            // window.onload = function () {
-
-                let config = response.config;
+            chrome.storage.local.get(['studySubjectConfig'], function (result) {
+                let config = result.studySubjectConfig;
                 let type = "article";
 
                 // 延迟执行
@@ -44,7 +43,7 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
 
                     // 学习完成关闭页面
                     setTimeout(function () {
-                        chrome.runtime.sendMessage({"method": "learningComplete"}, {}, function (res) {
+                        chrome.runtime.sendMessage({ type: "studyComplete" }, {}, function (res) {
                             if (res.complete) {
                                 window.close();
                             }
@@ -64,36 +63,34 @@ chrome.runtime.sendMessage({"method": "checkTab"}, {}, function (response) {
                     autoScroll(type);
 
                 }, 10000 + Math.floor(Math.random() * 1000));
+            });
 
-
-                // 滚动方法
-                function autoScroll(type) {
-                    if (type === "article") {
-                        setTimeout(function () {
-                            let scrollYMax = document.body.scrollHeight - document.documentElement.clientHeight;
-                            if (window.scrollY < scrollYMax - 600) {
-                                window.scrollBy({
-                                    left: 0,
-                                    top: Math.floor(Math.random() * 3) > 0 ? (100 + Math.floor(Math.random() * 200)) : (Math.floor(Math.random() * -200)),
-                                    behavior: 'smooth'
-                                });
-                                autoScroll(type);
-                            }
-                        }, 1000 + Math.floor(Math.random() * 3000))
-                    } else {
-                        setTimeout(function () {
-                            let x = Math.floor(Math.random() * 2);
+            // 滚动方法
+            function autoScroll(type) {
+                if (type === "article") {
+                    setTimeout(function () {
+                        let scrollYMax = document.body.scrollHeight - document.documentElement.clientHeight;
+                        if (window.scrollY < scrollYMax - 600) {
                             window.scrollBy({
-                                left: x ? -100 + Math.floor(Math.random() * 200) : 0,
-                                top: x ? 0 : -100 + Math.floor(Math.random() * 200),
-                                behavior: "smooth"
+                                left: 0,
+                                top: Math.floor(Math.random() * 3) > 0 ? (100 + Math.floor(Math.random() * 200)) : (Math.floor(Math.random() * -200)),
+                                behavior: 'smooth'
                             });
                             autoScroll(type);
-                        }, 2000 + Math.floor(Math.random() * 58 * 1000));
-                    }
+                        }
+                    }, 1000 + Math.floor(Math.random() * 3000))
+                } else {
+                    setTimeout(function () {
+                        let x = Math.floor(Math.random() * 2);
+                        window.scrollBy({
+                            left: x ? -100 + Math.floor(Math.random() * 200) : 0,
+                            top: x ? 0 : -100 + Math.floor(Math.random() * 200),
+                            behavior: "smooth"
+                        });
+                        autoScroll(type);
+                    }, 2000 + Math.floor(Math.random() * 58 * 1000));
                 }
-            // }
-
+            }
         }
     }
 });

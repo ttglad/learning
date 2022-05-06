@@ -1,23 +1,17 @@
-var extension;
-var Settings;
 
 function init() {
-    extension = chrome.extension.getBackgroundPage();
-    Settings = extension.Settings;
-
     document.body.style.visibility = "visible";
 }
 
 function loadConfigView() {
-    if (typeof (Settings.getObject("learningConfig")) != "undefined") {
-        var learningConfig = Settings.getObject("learningConfig");
+    chrome.storage.local.get(['studySubjectConfig'], function (result) {
+        let studySubjectConfig = result.studySubjectConfig
         var html = "";
-        for (var i = 0; i < learningConfig.length; i++) {
-            html += getViewDetail(learningConfig[i]);
+        for (var i = 0; i < studySubjectConfig.length; i++) {
+            html += getViewDetail(studySubjectConfig[i]);
         }
         $(html).appendTo("#configListTable");
-   
-    }
+    });
 }
 
 /**
@@ -41,7 +35,7 @@ function getViewDetail(obj) {
     html += '<td style="text-align: center">' + obj.title + '</td>';
 
     html += '<td><select class="' + obj.type + '_flag">';
-    var flagArr = [{"key": "自动学习", "value": true}, {"key": "不学习", "value": false}];
+    var flagArr = [{ "key": "自动学习", "value": true }, { "key": "不学习", "value": false }];
     for (var i = 0; i < flagArr.length; i++) {
         if (obj.flag === flagArr[i].value) {
             html += '<option value=' + flagArr[i].value + ' selected>' + flagArr[i].key + '</option> ';
@@ -55,7 +49,7 @@ function getViewDetail(obj) {
     if (obj.type == "article" || obj.type == "video") {
         html += '<select class="' + obj.type + '_time">';
 
-        var flagArr = [{"key": "1分钟", "value": "60"}, {"key": "2分钟", "value": "120"}, {"key": "3分钟", "value": "180"}];
+        var flagArr = [{ "key": "1分钟", "value": "60" }, { "key": "2分钟", "value": "120" }, { "key": "3分钟", "value": "180" }];
         for (var i = 0; i < flagArr.length; i++) {
             if (obj.time == flagArr[i].value) {
                 html += '<option value="' + flagArr[i].value + '" selected>' + flagArr[i].key + '</option> ';
@@ -73,7 +67,7 @@ function getViewDetail(obj) {
     if (obj.type == "week" || obj.type == "paper") {
         html += '<select class="' + obj.type + '_subject">';
 
-        var flagArr = [{"key": "优先本年度题目", "value": "current"}, {"key": "优先历史题目", "value": "history"}];
+        var flagArr = [{ "key": "优先本年度题目", "value": "current" }, { "key": "优先历史题目", "value": "history" }];
         for (var i = 0; i < flagArr.length; i++) {
             if (obj.subject == flagArr[i].value) {
                 html += '<option value="' + flagArr[i].value + '" selected>' + flagArr[i].key + '</option> ';
@@ -125,12 +119,14 @@ function saveOptions() {
         return a.sort - b.sort;
     });
 
-    Settings.setObject("learningConfig", config); 
-    location.reload();
+    // 保存数据
+    chrome.storage.local.set({ studySubjectConfig: config }, function () {
+        location.reload();
+    });
 }
 
-
-$(document).ready(function () {
+// 初始化函数
+jQuery(function () {
     init();
 
     loadConfigView();

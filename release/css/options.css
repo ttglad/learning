@@ -6,7 +6,12 @@ body {
     visibility: hidden;
 }
 
-body, td, input, select, textarea, button {
+body,
+td,
+input,
+select,
+textarea,
+button {
     color: #4e607d;
     font: menu;
     font-size: 9pt;
@@ -49,7 +54,8 @@ hr {
 }
 
 .button img {
-    vertical-align: text-bottom;;
+    vertical-align: text-bottom;
+    ;
 }
 
 #optionsTable {
@@ -121,7 +127,8 @@ hr {
     text-align: right;
 }
 
-#body .spacer, #body .spacer25 {
+#body .spacer,
+#body .spacer25 {
     height: 25px;
 }
 
@@ -137,7 +144,8 @@ hr {
     height: 5px;
 }
 
-#proxyProfiles, .rulesTable {
+#proxyProfiles,
+.rulesTable {
     width: 100%;
     height: 100%;
     border: solid 1px #d0d6d9;
@@ -146,11 +154,15 @@ hr {
     table-layout: fixed;
 }
 
-#proxyProfiles th, #proxyProfiles td, .rulesTable th, .rulesTable td {
+#proxyProfiles th,
+#proxyProfiles td,
+.rulesTable th,
+.rulesTable td {
     text-align: start;
 }
 
-#proxyProfiles th, .rulesTable th {
+#proxyProfiles th,
+.rulesTable th {
     height: 28px;
     padding: 0 8px;
     font-size: 9pt;
@@ -220,7 +232,8 @@ hr {
     text-align: center;
 }
 
-#proxyProfiles td input, .rulesTable td input {
+#proxyProfiles td input,
+.rulesTable td input {
     width: 97% !important;
     min-height: 24px;
     height: 100%;
@@ -268,11 +281,13 @@ hr {
     display: block;
 }
 
-#proxyProfiles td span, .rulesTable td span {
+#proxyProfiles td span,
+.rulesTable td span {
     -webkit-padding-start: 6px;
 }
 
-#proxyProfiles td img, .rulesTable td img {
+#proxyProfiles td img,
+.rulesTable td img {
     cursor: pointer;
 }
 
@@ -336,17 +351,26 @@ span.indent {
     padding-bottom: 8px;
 }
 
-#tabRulesBody td, #tabNetworkBody td, #tabGeneralBody td, #tabImportExportBody td {
+#tabRulesBody td,
+#tabNetworkBody td,
+#tabGeneralBody td,
+#tabImportExportBody td {
     white-space: nowrap;
     padding: 2px;
 }
 
-#tabRulesBody select, #tabNetworkBody select, #tabGeneralBody select, #tabImportExportBody select {
+#tabRulesBody select,
+#tabNetworkBody select,
+#tabGeneralBody select,
+#tabImportExportBody select {
     width: 200px;
     height: 140%;
 }
 
-#tabRulesBody td:nth-child(2), #tabNetworkBody td:nth-child(2), #tabGeneralBody td:nth-child(2), #tabImportExportBody td:nth-child(2) {
+#tabRulesBody td:nth-child(2),
+#tabNetworkBody td:nth-child(2),
+#tabGeneralBody td:nth-child(2),
+#tabImportExportBody td:nth-child(2) {
     width: 100%;
 }
 
@@ -354,7 +378,8 @@ span.indent {
     height: 22px;
 }
 
-#configListTable input, #configListTable select {
+#configListTable input,
+#configListTable select {
     width: 100%;
 }
 
@@ -363,11 +388,11 @@ span.indent {
     text-decoration: none;
 }
 
-#showUpgradePopup > img {
+#showUpgradePopup>img {
     width: 50px;
 }
 
-#showUpgradePopup > span {
+#showUpgradePopup>span {
     font-weight: bold;
     color: #5ab432;
 }
@@ -414,7 +439,8 @@ span.indent {
     vertical-align: middle;
 }
 
-#upgradePopup input, #upgradePopup select {
+#upgradePopup input,
+#upgradePopup select {
     width: 250px;
     min-height: 24px;
     height: 100%;
@@ -447,7 +473,8 @@ span.indent {
 }
 
 #upgradePopup .button img {
-    vertical-align: text-bottom;;
+    vertical-align: text-bottom;
+    ;
 }
 
 #upgradePopup .header {
@@ -472,7 +499,7 @@ span.indent {
     display: none;
 }
 
-#upgradePopup .note > * {
+#upgradePopup .note>* {
     height: auto !important;
     padding-bottom: 6px;
 }
