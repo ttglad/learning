@@ -64,6 +64,10 @@ function startRun() {
                                         "type": "redirect",
                                         "url": url
                                     });
+                                    // 文章和视频需要前置窗口
+                                    if (type == "article" || type == "video") {
+                                        chrome.windows.update(result.studyWindowId, { "focused": true });
+                                    }
                                 } else {
                                     // 定时重新执行
                                     setTimeout(startRun, Math.floor(10000 + Math.random() * 30 * 1000));
@@ -302,12 +306,12 @@ function ArrayRandom(array) {
     return array[index];
 }
 
-// storeage监听事件
-chrome.storage.onChanged.addListener((changes, area) => {
-    logMessage("storage changed, changes.");
-    logMessage(changes);
-    logMessage("storage changed, area: " + area);
-});
+// storage监听事件
+// chrome.storage.onChanged.addListener((changes, area) => {
+    // logMessage("storage changed, changes.");
+    // logMessage(changes);
+    // logMessage("storage changed, area: " + area);
+// });
 
 
 // tab移除监听事件
@@ -342,6 +346,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     logMessage("message type is: " + message.type);
 
     switch (requestType) {
+
+        // 检测扩展是否运行
+        case "checkRunning":
+            chrome.storage.local.get(["studyWindowId"], function (result) {
+                let runtime = false;
+                if (result.studyWindowId) {
+                    runtime = true;
+                }
+                sendResponse({ "runtime": runtime });
+            });
+            break;
+
         // 检测是否是扩展开启状态
         case "checkAuth":
             sendResponse({ "runtime": true });
@@ -391,7 +407,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             sendResponse({ "complete": 0 });
             break;
     }
-    // return true;
+    return true;
 });
 
 // 插件安装监听事件
@@ -410,7 +426,7 @@ chrome.runtime.onInstalled.addListener(() => {
     // 设置初始数据
     chrome.storage.local.set({
         "studySubjectConfig": studySubjectConfig,
-        "env": "dev"
+        "env": "idc"
     }, function () {
         logMessage("chrome extension is install.");
     });

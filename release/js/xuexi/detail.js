@@ -1,4 +1,4 @@
-chrome.runtime.sendMessage({ type: "checkAuth" }, {}, function (response) {
+chrome.runtime.sendMessage({ type: "checkRunning" }, {}, function (response) {
     if (response && response.hasOwnProperty("runtime")) {
         if (response.runtime) {
 
