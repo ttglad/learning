@@ -64,10 +64,6 @@ function startRun() {
                                         "type": "redirect",
                                         "url": url
                                     });
-                                    // 文章和视频需要前置窗口
-                                    if (type == "article" || type == "video") {
-                                        chrome.windows.update(result.studyWindowId, { "focused": true });
-                                    }
                                 } else {
                                     // 定时重新执行
                                     setTimeout(startRun, Math.floor(10000 + Math.random() * 30 * 1000));
@@ -227,7 +223,11 @@ function startStudy() {
             chrome.windows.create({
                 "url": StudyConfig.points,
                 "type": "popup",
-                "state": "fullscreen"
+                // "state": "fullscreen"
+                "top": 0,
+                "left": 0,
+                "width": 350,
+                "height": 350
             }, function (window) {
                 chrome.storage.local.set({
                     "studyWindowId": window.id,
@@ -235,6 +235,8 @@ function startStudy() {
                     "weekAskDoes": 0,
                     "paperAskDoes": 0
                 }, function () {
+                    // 静音处理
+                    chrome.tabs.update(window.tabs[window.tabs.length - 1].id, { "muted": true });
                     // 开始学习
                     noticeMessage(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
                 });
@@ -244,7 +246,7 @@ function startStudy() {
             noticeMessage(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extLearning"));
 
             // 设置焦点
-            chrome.windows.update(result.studyWindowId, { "focused": true, "state": "fullscreen" });
+            chrome.windows.update(result.studyWindowId, { "focused": true });
         }
     });
 }
