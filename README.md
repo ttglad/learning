@@ -8,6 +8,7 @@
 * Chrome
   * 在地址栏输入 `chrome://extensions` 并回车，勾选 **开发者模式** -> **加载已解压的扩展程序**, 选择从 `Source code` 解压的 `release` 文件夹。
   * 可参考作者文章 [chrome插件manifest V3开发](https://www.jianshu.com/p/5464872fef93) 设置
+  * chrome应用商店可搜索 `学习强国` 下载安装。
 * QQ 浏览器
     * 在地址栏输入 `qqbrowser://extensions/manage` 并回车，拖动 `*.crx` 文件到页面内。
 * 360 安全浏览器
