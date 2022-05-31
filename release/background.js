@@ -249,6 +249,7 @@ function startStudy() {
             chrome.windows.update(result.studyWindowId, { "focused": true });
         }
     });
+    return true;
 }
 
 // 停止学习，需要关闭
@@ -267,6 +268,7 @@ function stopStudy() {
             chrome.action.setBadgeText({ text: "" });
         }
     });
+    return true;
 }
 
 // 通知消息
@@ -330,6 +332,7 @@ chrome.tabs.onRemoved.addListener(function (tabId, removeInfo) {
             logMessage("chrome tab remove success.");
         }
     });
+    return true;
 });
 
 // 窗口移除监听事件
@@ -342,6 +345,7 @@ chrome.windows.onRemoved.addListener(function (windowId) {
             logMessage("chrome windows remove success.");
         }
     });
+    return true;
 });
 
 // 后台监听事件消息

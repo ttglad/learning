@@ -2,7 +2,7 @@
   "name": "__MSG_extName__",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "manifest_version": 3,
   "icons": {
     "16": "img/icon/icon_16x16.png",
@@ -53,6 +53,7 @@
     },
     {
       "js": [
+        "libs/jquery.js",
         "js/xuexi/answer.js"
       ],
       "matches": [
