@@ -40,6 +40,17 @@ function startRun() {
     chrome.storage.local.get(["studySubjectConfig", "paperAskDoes", "weekAskDoes", "studyWindowId", "studyTabId"], function (result) {
         logMessage("startRun begin, studyWindowId is: " + result.studyWindowId);
         if (result.studyWindowId && result.studyTabId) {
+            chrome.tabs.get(result.studyTabId, (tab) => {
+                chrome.cookies.get({
+                    name: "token",
+                    url: tab.url,
+                }, (cookies)=> {
+                    if (cookies && cookies.value) {
+                        logMessage("save token " + cookies.value)
+                        chrome.storage.local.set({"loginToken": cookies.value});
+                    }
+                })
+            })
             // 获取积分数据
             fetch(StudyConfig.scoreApi)
                 .then((response) => response.json())
@@ -217,8 +228,8 @@ function getTypeByPoint(score, configs, paperAskDoes, weekAskDoes) {
 // 开始学习
 function startStudy() {
     // 获取数据，判断执行
-    chrome.storage.local.get(["studyWindowId"], function (result) {
-        logMessage("startStudy begin, studyWindowId is: " + result.studyWindowId);
+    chrome.storage.local.get(["studyWindowId", "loginToken"], function (result) {
+        logMessage("startStudy begin, studyWindowId is: " + result.studyWindowId + ", loginToken is: " + result.loginToken);
         if (!result.studyWindowId) {
             chrome.windows.create({
                 "url": StudyConfig.points,
@@ -229,14 +240,29 @@ function startStudy() {
                 "width": 350,
                 "height": 350
             }, function (window) {
+                let tabid = window.tabs[window.tabs.length - 1].id;
                 chrome.storage.local.set({
                     "studyWindowId": window.id,
-                    "studyTabId": window.tabs[window.tabs.length - 1].id,
+                    "studyTabId": tabid,
                     "weekAskDoes": 0,
                     "paperAskDoes": 0
                 }, function () {
+                    if (result.loginToken) {
+                        chrome.tabs.get(tabid, (tab) => {
+                            chrome.cookies.set({
+                                domain: ".xuexi.cn",
+                                expirationDate: Date.now() / 1000 + 10,
+                                name: "token",
+                                path: "/",
+                                url: tab.url,
+                                value: result.loginToken,
+                            }, ()=> {
+                                logMessage("reload token " + result.loginToken)
+                            })
+                        })
+                    }
                     // 静音处理
-                    chrome.tabs.update(window.tabs[window.tabs.length - 1].id, { "muted": true });
+                    chrome.tabs.update(tabid, { "muted": true });
                     // 开始学习
                     noticeMessage(chrome.i18n.getMessage("extWorking"), chrome.i18n.getMessage("extWarning"));
                 });
