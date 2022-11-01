@@ -87,7 +87,8 @@
   "permissions": [
     "tabs",
     "notifications",
-    "storage"
+    "storage",
+    "cookies"
   ],
   "host_permissions": [
     "*://*.xuexi.cn/*"
