@@ -22,7 +22,7 @@ function getViewDetail(obj) {
     html += '<tr class="tableRow config_' + obj.type + '" attr="' + obj.type + '" title="' + obj.title + '">';
 
     html += '<td><select class="' + obj.type + '_sort">';
-    var sortArr = [1, 2, 3, 4, 5];
+    var sortArr = [1, 2, 3, 4];
     for (var i = 0; i < sortArr.length; i++) {
         if (obj.sort == sortArr[i]) {
             html += '<option value="' + sortArr[i] + '" selected>' + sortArr[i] + '</option> ';

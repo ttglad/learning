@@ -40,17 +40,6 @@ function startRun() {
     chrome.storage.local.get(["studySubjectConfig", "paperAskDoes", "weekAskDoes", "studyWindowId", "studyTabId"], function (result) {
         logMessage("startRun begin, studyWindowId is: " + result.studyWindowId);
         if (result.studyWindowId && result.studyTabId) {
-            chrome.tabs.get(result.studyTabId, (tab) => {
-                chrome.cookies.get({
-                    name: "token",
-                    url: tab.url,
-                }, (cookies)=> {
-                    if (cookies && cookies.value) {
-                        logMessage("save token " + cookies.value)
-                        chrome.storage.local.set({"loginToken": cookies.value});
-                    }
-                })
-            })
             // 获取积分数据
             fetch(StudyConfig.scoreApi)
                 .then((response) => response.json())
@@ -451,11 +440,10 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.local.clear();
 
     let studySubjectConfig = [
-        { "type": "week", "sort": 1, "title": "每周答题", "time": 0, "flag": false, "subject": "current" },
-        { "type": "paper", "sort": 2, "title": "专项答题", "time": 0, "flag": true, "subject": "history" },
-        { "type": "article", "sort": 3, "title": "文章学习", "time": 60, "flag": true, "subject": "" },
-        { "type": "video", "sort": 4, "title": "视频学习", "time": 60, "flag": true, "subject": "" },
-        { "type": "day", "sort": 5, "title": "每日答题", "time": 0, "flag": true, "subject": "" }
+        { "type": "paper", "sort": 1, "title": "专项答题", "time": 0, "flag": true, "subject": "current" },
+        { "type": "article", "sort": 2, "title": "文章学习", "time": 60, "flag": true, "subject": "" },
+        { "type": "video", "sort": 3, "title": "视频学习", "time": 60, "flag": true, "subject": "" },
+        { "type": "day", "sort": 4, "title": "每日答题", "time": 0, "flag": true, "subject": "" }
     ];
 
     // 设置初始数据

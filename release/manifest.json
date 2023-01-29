@@ -2,7 +2,7 @@
   "name": "__MSG_extName__",
   "default_locale": "zh_CN",
   "description": "__MSG_extDescription__",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "manifest_version": 3,
   "icons": {
     "16": "img/icon/icon_16x16.png",
@@ -45,7 +45,8 @@
     },
     {
       "js": [
-        "js/xuexi/redirect.js"
+        "js/xuexi/redirect.js",
+        "js/xuexi/valid.js"
       ],
       "matches": [
         "*://*.xuexi.cn/*"
@@ -87,8 +88,7 @@
   "permissions": [
     "tabs",
     "notifications",
-    "storage",
-    "cookies"
+    "storage"
   ],
   "host_permissions": [
     "*://*.xuexi.cn/*"
