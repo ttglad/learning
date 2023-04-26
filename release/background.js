@@ -9,18 +9,18 @@ const StudyConfig = {
     "weekAskUrl": "https://pc.xuexi.cn/points/exam-weekly-list.html",
     "paperAskUrl": "https://pc.xuexi.cn/points/exam-paper-list.html",
     "articleUrl": [
-        "1jpuhp6fn73",  // 重要活动
-        "19vhj0omh73",  // 重要会议
-        "132gdqo7l73",  // 重要讲话
         "35il6fpn0ohq", // 学习重点
         "1ap1igfgdn2",  // 学习时评
+        "1ajhkle8l72",  // 综合新闻
         "slu9169f72",   // 中宣部发布
         "tuaihmuun2",   // 新文发布厅
         "1oo5atvs172",  // 文化广场
         "1eppcq11fne",  // 科技思想研究
         "152ijthp37e",  // 科技前沿
         "1jscb6pu1n2",  // 重要新闻
-        "1ajhkle8l72",  // 综合新闻
+        "1jpuhp6fn73",  // 重要活动
+        "19vhj0omh73",  // 重要会议
+        "132gdqo7l73",  // 重要讲话
     ],
     "videoUrl": [
         "2qfjjjrprmdh", // 国防军事新文
@@ -108,7 +108,7 @@ async function getUrlByType(type) {
             key = ArrayRandom(StudyConfig.videoUrl);
         }
         try {
-            const response = await fetch(StudyConfig.channelApi + key + ".json?_st=" + Math.floor(Date.now() / 6e4));
+            const response = await fetch(StudyConfig.channelApi + key + ".json?_st=" + Math.floor(Date.now() / 6e4) + "&js_v=1681882424082");
             const urlData = await response.json();
 
             logMessage(urlData);
@@ -126,7 +126,7 @@ async function getUrlByType(type) {
                     // 判断发布时间是否是365天之内，如果没有，判断url规则
                     if (urlData[key].hasOwnProperty("publishTime")) {
                         publishTime = new Date(urlData[key].publishTime);
-                        var lastYear = new Date(new Date() - 365 * 86400000);
+                        var lastYear = new Date(new Date() - 100 * 86400000);
                         if (publishTime < lastYear) {
                             continue;
                         }

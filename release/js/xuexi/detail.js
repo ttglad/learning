@@ -48,7 +48,7 @@ chrome.runtime.sendMessage({ type: "checkRunning" }, {}, function (response) {
                                 window.close();
                             }
                         });
-                    }, newTime + Math.floor(Math.random() * 10 * 1000));
+                    }, newTime + Math.floor(Math.random() * 60 * 1000));
 
                     // 页面点击时间
                     if (document.querySelector(".content")) {
