@@ -6,8 +6,8 @@ const StudyConfig = {
     "channelApi": "https://www.xuexi.cn/lgdata/",
     "loginUrl": "https://pc.xuexi.cn/points/login.html",
     "dayAskUrl": "https://pc.xuexi.cn/points/exam-practice.html",
-    "weekAskUrl": "https://pc.xuexi.cn/points/exam-weekly-list.html",
-    "paperAskUrl": "https://pc.xuexi.cn/points/exam-paper-list.html",
+    // "weekAskUrl": "https://pc.xuexi.cn/points/exam-weekly-list.html",
+    // "paperAskUrl": "https://pc.xuexi.cn/points/exam-paper-list.html",
     "articleUrl": [
         "35il6fpn0ohq", // 学习重点
         "1ap1igfgdn2",  // 学习时评
@@ -37,7 +37,7 @@ const StudyConfig = {
 
 // 学习开始
 function startRun() {
-    chrome.storage.local.get(["studySubjectConfig", "paperAskDoes", "weekAskDoes", "studyWindowId", "studyTabId"], function (result) {
+    chrome.storage.local.get(["studySubjectConfig", "studyWindowId", "studyTabId"], function (result) {
         logMessage("startRun begin, studyWindowId is: " + result.studyWindowId);
         if (result.studyWindowId && result.studyTabId) {
             // 获取积分数据
@@ -54,7 +54,7 @@ function startRun() {
 
                         // 获取请求类型
                         let type;
-                        type = getTypeByPoint(pointData.taskProgress, result.studySubjectConfig, result.paperAskDoes, result.weekAskDoes);
+                        type = getTypeByPoint(pointData.taskProgress, result.studySubjectConfig);
                         logMessage("type is: " + type);
                         if (typeof (type) != "undefined" && type != null) {
                             (async () => {
@@ -94,11 +94,7 @@ function startRun() {
 async function getUrlByType(type) {
     let url;
 
-    if (type == "paper") {
-        url = StudyConfig.paperAskUrl;
-    } else if (type == "week") {
-        url = StudyConfig.weekAskUrl;
-    } else if (type == "day") {
+    if (type == "day") {
         url = StudyConfig.dayAskUrl;
     } else {
         let key;
@@ -155,7 +151,7 @@ async function getUrlByType(type) {
 }
 
 // 1阅读文章，2试听学习，4专项答题，5每周答题，6每日答题，9登录，1002文章时长，1003视听学习时长
-function getTypeByPoint(score, configs, paperAskDoes, weekAskDoes) {
+function getTypeByPoint(score, configs) {
     let type;
     let config = configs.sort(function (a, b) {
         return a.sort - b.sort;
@@ -164,8 +160,6 @@ function getTypeByPoint(score, configs, paperAskDoes, weekAskDoes) {
     let task = new Array();
     task['article'] = false;
     task['video'] = false;
-    task['paper'] = false;
-    task['week'] = false;
     task['day'] = false;
 
 
@@ -188,16 +182,16 @@ function getTypeByPoint(score, configs, paperAskDoes, weekAskDoes) {
                 task['video'] = true;
             }
         }
-        if (task['paper'] == false && score[key].taskCode.indexOf("4") != -1) {
-            if (paperAskDoes == 0 && score[key].currentScore <= 0) {
-                task['paper'] = true;
-            }
-        }
-        if (task['week'] == false && score[key].taskCode.indexOf("5") != -1) {
-            if (weekAskDoes == 0 && score[key].currentScore <= 0) {
-                task['week'] = true;
-            }
-        }
+        // if (task['paper'] == false && score[key].taskCode.indexOf("4") != -1) {
+        //     if (paperAskDoes == 0 && score[key].currentScore <= 0) {
+        //         task['paper'] = true;
+        //     }
+        // }
+        // if (task['week'] == false && score[key].taskCode.indexOf("5") != -1) {
+        //     if (weekAskDoes == 0 && score[key].currentScore <= 0) {
+        //         task['week'] = true;
+        //     }
+        // }
         if (task['day'] == false && score[key].taskCode.indexOf("6") != -1) {
             if (score[key].currentScore < score[key].dayMaxScore) {
                 task['day'] = true;
@@ -232,9 +226,7 @@ function startStudy() {
                 let tabid = window.tabs[window.tabs.length - 1].id;
                 chrome.storage.local.set({
                     "studyWindowId": window.id,
-                    "studyTabId": tabid,
-                    "weekAskDoes": 0,
-                    "paperAskDoes": 0
+                    "studyTabId": tabid
                 }, function () {
                     if (result.loginToken) {
                         chrome.tabs.get(tabid, (tab) => {
@@ -406,18 +398,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             break;
 
         // 每周答题
-        case "weekAskDoes":
-            chrome.storage.local.set({ "weekAskDoes": 1 });
-            startRun();
-            sendResponse({ "complete": 0 });
-            break;
-
-        // 专项答题
-        case "paperAskDoes":
-            chrome.storage.local.set({ "paperAskDoes": 1 });
-            startRun();
-            sendResponse({ "complete": 0 });
-            break;
+        // case "weekAskDoes":
+        //     chrome.storage.local.set({ "weekAskDoes": 1 });
+        //     startRun();
+        //     sendResponse({ "complete": 0 });
+        //     break;
+        //
+        // // 专项答题
+        // case "paperAskDoes":
+        //     chrome.storage.local.set({ "paperAskDoes": 1 });
+        //     startRun();
+        //     sendResponse({ "complete": 0 });
+        //     break;
 
         // 学习完成
         case "studyComplete":
@@ -440,10 +432,9 @@ chrome.runtime.onInstalled.addListener(() => {
     chrome.storage.local.clear();
 
     let studySubjectConfig = [
-        { "type": "paper", "sort": 1, "title": "专项答题", "time": 0, "flag": true, "subject": "current" },
-        { "type": "article", "sort": 2, "title": "文章学习", "time": 60, "flag": true, "subject": "" },
-        { "type": "video", "sort": 3, "title": "视频学习", "time": 60, "flag": true, "subject": "" },
-        { "type": "day", "sort": 4, "title": "每日答题", "time": 0, "flag": true, "subject": "" }
+        { "type": "article", "sort": 1, "title": "文章学习", "time": 60, "flag": true, "subject": "" },
+        { "type": "video", "sort": 2, "title": "视频学习", "time": 60, "flag": true, "subject": "" },
+        { "type": "day", "sort": 3, "title": "每日答题", "time": 0, "flag": true, "subject": "" }
     ];
 
     // 设置初始数据
